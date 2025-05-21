@@ -1,0 +1,105 @@
+// File: backend/controllers/foodController.js
+import Food from '../models/Food.js';
+import User from '../models/User.js';
+
+export const donateFood = async (req, res) => {
+  const { name, description, quantity, preparationDate, expiryDate, images, price, isFree, address, location } = req.body;
+
+  try {
+    const food = await Food.create({
+      name,
+      description,
+      quantity,
+      preparationDate,
+      expiryDate,
+      images,
+      price,
+      isFree,
+      donor: req.user._id,
+      address,
+      location  
+    });
+    
+
+    await User.findByIdAndUpdate(req.user._id, {
+      $push: { donatedFoods: food._id }
+    });
+
+    res.status(201).json(food);
+  } catch (error) {
+    console.error("Error in donateFood:", error);
+    res.status(500).json({ message: 'Server error in donation', error: error.message });
+  }
+  
+};
+
+export const getAvailableFoods = async (req, res) => {
+  try {
+    const foods = await Food.find({ status: 'available' }).populate('donor', 'name email');
+    res.json(foods);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error to fetch available food' });
+  }
+};
+
+export const getFoodById = async (req, res) => {
+  try {
+    const food = await Food.findById(req.params.id).populate('donor', 'name email');
+    if (!food) {
+      return res.status(404).json({ message: 'Food not found' });
+    }
+    res.json(food);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error to get food by id' });
+  }
+};
+
+export const reserveFood = async (req, res) => {
+  try {
+    const food = await Food.findById(req.params.id);
+    if (!food) {
+      return res.status(404).json({ message: 'Food not found' });
+    }
+
+    if (food.status !== 'available') {
+      return res.status(400).json({ message: 'Food is not available' });
+    }
+
+    food.status = 'reserved';
+    food.receiver = req.user._id;
+    await food.save();
+
+    await User.findByIdAndUpdate(req.user._id, {
+      $push: { receivedFoods: food._id }
+    });
+
+    res.json(food);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error in finding reserved food' });
+  }
+};
+
+export const getDonatedFoods = async (req, res) => {
+  try {
+    const foods = await Food.find({ donor: req.user._id });
+    res.json(foods);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error while getting donated food' });
+  }
+};
+
+export const getReceivedFoods = async (req, res) => {
+  try {
+    const foods = await Food.find({ receiver: req.user._id });
+    res.json(foods);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error while getting received food' });
+  }
+};
+
+

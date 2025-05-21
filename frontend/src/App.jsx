@@ -1,23 +1,35 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Routerz_Hehe, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
+import React from 'react';
 import NGODashboard from './pages/NGODashboard';
 import RestaurantDashboard from './pages/RestaurantDashboard';
+import Navbar from './components/Navbar';
+import Auth from './pages/Auth';
 
 function App() {
   return (
-    <div className="min-h-screen p-4">
-      <nav className="flex gap-4 mb-4">
-        <Link to="/">Home</Link>
-        <Link to="/ngo">NGO Dashboard</Link>
-        <Link to="/restaurant">Restaurant Dashboard</Link>
-      </nav>
+    <Routerz_Hehe className="min-h-screen bg-gray-100">
+      <div className='flex-grow container mx-auto px-2'>{/* px..*/}
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/ngo" element={<NGODashboard />} />
-        <Route path="/restaurant" element={<RestaurantDashboard />} />
-      </Routes>
-    </div>
+        <Navbar />
+
+        <main className='flex-grow container mx-auto px-4 py-8'>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/ngoDashboard' element={<NGODashboard />} />
+            <Route path='/restaurantDashboard' element={<RestaurantDashboard />} />
+            <Route path='/auth' element={<Auth />} />
+            <Route path='*' element={<div className='text-center text-gray-600'>404 - ja bsdk 0I0</div>} />
+          </Routes>
+        </main>
+
+        <footer className='bg-white shadow-inner py-4 mt-8'>
+          <div className='container mx-auto px-4 text-center text-gray-600'>
+            <p>© {new Date().getFullYear()} Food Sharing App. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
+    </Routerz_Hehe>
   );
 }
 
