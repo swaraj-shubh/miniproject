@@ -102,4 +102,13 @@ export const getReceivedFoods = async (req, res) => {
   }
 };
 
+export const getAllDonatedFoods = async (req, res) => {
+  try {
+    const foods = await Food.find().populate("donor", "name email");
+    res.json(foods);
+  } catch (error) {
+    console.error("Error in getAllDonatedFoods:", error);
+    res.status(500).json({ message: "Server error while fetching all donated food" });
+  }
+};
 

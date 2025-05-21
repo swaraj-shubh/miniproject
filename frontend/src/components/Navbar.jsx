@@ -1,19 +1,34 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@radix-ui/react-navigation-menu";
+import { useEffect, useState } from "react";
 
 function Navbar() {
     const location = useLocation();
-    const getLinkClass = (path) =>
-        `px-4 py-2 rounded-md transition-colors hover:bg-[#c0392b]  text-gray-1000 hover:shadow-2xl shadow-black hover:text-black hover:font-medium transition-transform duration-1000 hover:scale-105 ${
-           location.pathname === path ? "text-black font-bold" : ""
-          }`;
-    
-    return(
-        <header className="bg-[#E74C3C] rounded-b-sm text-white shadow-2xl w-full">
-            <div className="container flex items-center justify-between p-4 mx-auto">
-                <NavigationMenu>
-                    <NavigationMenuList className="flex gap-4">
+    const navigate = useNavigate();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    // Check auth on mount
+    useEffect(() => {
+        const token = localStorage.getItem("token"); // or sessionStorage
+        setIsAuthenticated(!!token);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setIsAuthenticated(false);
+        navigate("/auth");
+    };
+
+    const getLinkClass = (path) =>
+        `px-4 py-2 rounded-md transition-colors hover:bg-[#c0392b] text-gray-1000 hover:shadow-2xl shadow-black hover:text-black hover:font-medium transition-transform duration-1000 hover:scale-105 ${
+            location.pathname === path ? "text-black font-bold" : ""
+        }`;
+
+    return (
+        <header className="bg-[#E74C3C] rounded-b-sm rounded-t-sm mt-2 text-white shadow-2xl w-full">
+            <div className="container flex items-center justify-between p-4 mx-auto">
+                <NavigationMenu className="w-full">
+                    <NavigationMenuList className="flex gap-4 w-full items-center">
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild>
                                 <Link to="/" className={getLinkClass("/")}>Home</Link>
@@ -22,7 +37,7 @@ function Navbar() {
 
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild>
-                                <Link to="/ngoDashboard" className={getLinkClass("/ngoDashboard")}> Find Food</Link>
+                                <Link to="/ngoDashboard" className={getLinkClass("/ngoDashboard")}>Find Food</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
 
@@ -33,16 +48,24 @@ function Navbar() {
                         </NavigationMenuItem>
 
                         <NavigationMenuItem className="ml-auto">
-                            <NavigationMenuLink asChild>
-                                <Link to="/auth" className={getLinkClass("/auth")}>Login/Register</Link>
-                            </NavigationMenuLink>
+                            {isAuthenticated ? (
+                                <button
+                                    onClick={handleLogout}
+                                    className="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition-all duration-300"
+                                >
+                                    Logout
+                                </button>
+                            ) : (
+                                <NavigationMenuLink asChild>
+                                    <Link to="/auth" className={getLinkClass("/auth")}>Login</Link>
+                                </NavigationMenuLink>
+                            )}
                         </NavigationMenuItem>
-
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>
         </header>
     );
-};
+}
 
 export default Navbar;

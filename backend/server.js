@@ -11,13 +11,18 @@ import foodRoutes from './routes/foodRoutes.js';
 // Load environment variables
 dotenv.config();
 const MONGO_URI = process.env.MONGODB_URI || "";
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 // Initialize Express app
 const app = express();
 
 // Middleware
-app.use(cors());
+
+
+app.use(cors({
+  origin: "http://localhost:5174", 
+  credentials: true                
+}));
 app.use(express.json());
 
 // Routes

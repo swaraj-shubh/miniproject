@@ -1,5 +1,4 @@
-// src/pages/Login.js
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Tabs,
   TabsList,
@@ -9,21 +8,43 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-  const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [signupData, setSignupData] = useState({ name: '', email: '', password: '' });
 
-  const handleLogin = (e) => {
+import { login, register } from "@/api/axios";
+
+export default function Auth() {
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [signupData, setSignupData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login data:", loginData);
-    // Add your login logic here
+    try {
+      const res = await login(loginData);
+      localStorage.setItem("token", res.data.token);
+      navigate("/"); 
+      alert(`✅ Logged in : + ${email}`);
+    } catch (err) {
+      alert("❌ Error: " +err.response?.data?.message || "Login failed");
+    }
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("Signup data:", signupData);
-    // Add your signup logic here
+    try {
+      const res = await register(signupData);
+      localStorage.setItem("token", res.data.token);
+      navigate("/"); 
+      alert(`✅ Signup : + ${email}`);
+
+    } catch (err) {
+      alert("❌ Error: "+err.response?.data?.message || "Signup failed");
+    }
   };
 
   return (
@@ -43,14 +64,18 @@ export default function Login() {
                   type="email"
                   placeholder="Email"
                   value={loginData.email}
-                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, email: e.target.value })
+                  }
                   required
                 />
                 <Input
                   type="password"
                   placeholder="Password"
                   value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, password: e.target.value })
+                  }
                   required
                 />
                 <Button type="submit" className="w-full">
@@ -66,21 +91,27 @@ export default function Login() {
                   type="text"
                   placeholder="Full Name"
                   value={signupData.name}
-                  onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, name: e.target.value })
+                  }
                   required
                 />
                 <Input
                   type="email"
                   placeholder="Email"
                   value={signupData.email}
-                  onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, email: e.target.value })
+                  }
                   required
                 />
                 <Input
                   type="password"
                   placeholder="Password"
                   value={signupData.password}
-                  onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, password: e.target.value })
+                  }
                   required
                 />
                 <Button type="submit" className="w-full">
