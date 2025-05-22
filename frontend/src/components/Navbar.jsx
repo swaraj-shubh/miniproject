@@ -47,20 +47,33 @@ function Navbar() {
                             </NavigationMenuLink>
                         </NavigationMenuItem>
 
-                        <NavigationMenuItem className="ml-auto">
-                            {isAuthenticated ? (
-                                <button
-                                    onClick={handleLogout}
-                                    className="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition-all duration-300"
-                                >
-                                    Logout
-                                </button>
-                            ) : (
+
+                        {/* Right side ke items yaha se start h */}
+                        <div className="ml-auto flex items-center gap-4">
+                            <NavigationMenuItem>
                                 <NavigationMenuLink asChild>
-                                    <Link to="/auth" className={getLinkClass("/auth")}>Login</Link>
+                                    <Link to="/profile" className={getLinkClass("/profile")}>Profile</Link>
                                 </NavigationMenuLink>
-                            )}
-                        </NavigationMenuItem>
+                            </NavigationMenuItem>
+
+
+                            <NavigationMenuItem className="">
+
+                                {isAuthenticated ? (
+                                    <button
+                                        onClick={handleLogout}
+                                        className="px-4 py-2 ml-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition-all duration-300"
+                                    >
+                                        Logout
+                                    </button>
+                                ) : (
+                                    <NavigationMenuLink asChild>
+                                        <Link to="/auth" className={getLinkClass("/auth")}>Login</Link>
+                                    </NavigationMenuLink>
+                                )}
+                            </NavigationMenuItem>
+                        </div>
+
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>

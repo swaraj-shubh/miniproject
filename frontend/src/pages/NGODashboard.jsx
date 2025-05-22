@@ -25,8 +25,10 @@ const NGODashboard = () => {
       await reserveFood(id);
       toast.success("Food reserved successfully");
       fetchFoods(); // Refresh the list
+      alert("Food reserved successfully");
     } catch (error) {
       toast.error("Failed to reserve food");
+      alert("Failed to reserve food");
       console.error(error);
     }
   };

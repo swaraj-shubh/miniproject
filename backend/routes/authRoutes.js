@@ -7,3 +7,12 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 
 export default router;
+/*
+api/auth/register
+{
+  "name": "Shubham Verma",
+  "email": "aaa@gmail.com",
+  "password": "yourSecurePassword123",
+  "role": "restaurant" // or "ngo" depending on the signup type
+}
+ */

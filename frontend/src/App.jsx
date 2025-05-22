@@ -5,6 +5,7 @@ import NGODashboard from './pages/NGODashboard';
 import RestaurantDashboard from './pages/RestaurantDashboard';
 import Navbar from './components/Navbar';
 import Auth from './pages/Auth';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='/ngoDashboard' element={<NGODashboard />} />
             <Route path='/restaurantDashboard' element={<RestaurantDashboard />} />
             <Route path='/auth' element={<Auth />} />
+            <Route path='/profile' element={<Profile />} />
             <Route path='*' element={<div className='text-center text-gray-600'>404 - ja bsdk 0I0</div>} />
           </Routes>
         </main>
