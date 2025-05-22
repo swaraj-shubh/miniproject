@@ -13,16 +13,22 @@ function Navbar() {
         setIsAuthenticated(!!token);
     }, []);
 
+    // useEffect(() => {
+    //     window.location.reload();
+    // }, []);
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         setIsAuthenticated(false);
-        navigate("/auth");
+        navigate("/");
     };
 
-    const getLinkClass = (path) =>
-        `px-4 py-2 rounded-md transition-colors hover:bg-[#c0392b] text-gray-1000 hover:shadow-2xl shadow-black hover:text-black hover:font-medium transition-transform duration-1000 hover:scale-105 ${
+    const getLinkClass = (path) => {
+        return `px-4 py-2 rounded-md transition-colors hover:bg-[#c0392b] text-gray-1000 hover:shadow-2xl shadow-black hover:text-black hover:font-medium transition-transform duration-1000 hover:scale-105 ${
             location.pathname === path ? "text-black font-bold" : ""
         }`;
+    };
+    
 
     return (
         <header className="bg-[#E74C3C] rounded-b-sm rounded-t-sm mt-2 text-white shadow-2xl w-full">

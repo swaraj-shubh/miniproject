@@ -9,8 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-
-
 import { login, register } from "@/api/axios";
 
 export default function Auth() {
@@ -27,10 +25,11 @@ export default function Auth() {
     try {
       const res = await login(loginData);
       localStorage.setItem("token", res.data.token);
-      navigate("/"); 
-      alert(`✅ Logged in : + ${email}`);
+      alert(`✅ Logged in as: ${loginData.email}`);
+      navigate("/profile"); 
+      setTimeout(() => window.location.reload(), 100); // reload after navigation
     } catch (err) {
-      alert("❌ Error: " +err.response?.data?.message || "Login failed");
+      alert("❌ Error: " + (err.response?.data?.message || "Login failed"));
     }
   };
 
@@ -39,11 +38,11 @@ export default function Auth() {
     try {
       const res = await register(signupData);
       localStorage.setItem("token", res.data.token);
-      navigate("/"); 
-      alert(`✅ Signup : + ${email}`);
-
+      alert(`✅ Signed up as: ${signupData.email}`);
+      navigate("/profile");
+      setTimeout(() => window.location.reload(), 100);
     } catch (err) {
-      alert("❌ Error: "+err.response?.data?.message || "Signup failed");
+      alert("❌ Error: " + (err.response?.data?.message || "Signup failed"));
     }
   };
 

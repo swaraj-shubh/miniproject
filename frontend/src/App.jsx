@@ -11,11 +11,11 @@ function App() {
   return (
     <Routerz_Hehe className="min-h-screen bg-gray-100">
       <div className='flex-grow container mx-auto px-2'>{/* px..*/}
-
-        <Navbar />
-
+        <header className="">
+          <Navbar />
+        </header>
         <main className='flex-grow container mx-auto px-4 py-8'>
-          <Routes>
+          <Routes className='mt-16'>
             <Route path='/' element={<Home />} />
             <Route path='/ngoDashboard' element={<NGODashboard />} />
             <Route path='/restaurantDashboard' element={<RestaurantDashboard />} />
