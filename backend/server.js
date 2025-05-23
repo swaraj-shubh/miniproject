@@ -8,15 +8,12 @@ import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import foodRoutes from './routes/foodRoutes.js';
 
-// Load environment variables
 dotenv.config();
 const MONGO_URI = process.env.MONGODB_URI || "";
 const PORT = process.env.PORT || 8000;
 
-// Initialize Express app
-const app = express();
 
-// Middleware
+const app = express();
 
 
 app.use(cors({
@@ -25,7 +22,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/foods', foodRoutes);
@@ -42,7 +38,6 @@ app.get('/', (req, res) => {
   res.send('🌱 namashkaar to the Food Donation API! fffft');
 });
 
-// Database connection and server start
 mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,

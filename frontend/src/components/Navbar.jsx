@@ -7,15 +7,10 @@ function Navbar() {
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Check auth on mount
     useEffect(() => {
         const token = localStorage.getItem("token"); // or sessionStorage
         setIsAuthenticated(!!token);
     }, []);
-
-    // useEffect(() => {
-    //     window.location.reload();
-    // }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("token");

@@ -1,4 +1,3 @@
-// models/Food.js
 import mongoose from 'mongoose';
 
 const foodSchema = new mongoose.Schema(
@@ -56,7 +55,7 @@ const foodSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Enable geospatial indexing for location
+
 foodSchema.index({ location: '2dsphere' });
 
 const Food = mongoose.model('Food', foodSchema);

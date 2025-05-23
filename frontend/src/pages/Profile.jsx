@@ -199,44 +199,6 @@ const Profile = () => {
                 </Tabs>
             </CardContent>
         </Card>
-
-
-      {/* {loading ? (
-        <p>Loading...</p>
-      ) : foods.length === 0 ? (
-        <p>No food items available currently.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {foods.map((food) => (
-            <Card key={food._id}>
-              <CardContent className="p-4 space-y-2">
-                <h3 className="text-xl font-semibold">{food.name}</h3>
-                <p>{food.description}</p>
-                {food.image && (
-                   <img
-                   src={item.images[0]} // base64 image
-                   alt={item.name}
-                   className="rounded-xl object-cover w-full h-64"
-                 />
-                )}
-                <p><strong>Quantity:</strong> {food.quantity}</p>
-                <p><strong>Donor:</strong> {food.donor?.name || "N/A"}</p>
-                <p><strong>Prep Date:</strong> {new Date(food.preparationDate).toLocaleDateString()}</p>
-                <p><strong>Expiry:</strong> {new Date(food.expiryDate).toLocaleDateString()}</p>
-                <p><strong>Address:</strong> {food.address}</p>
-                <p><strong>Free:</strong> {food.isFree ? "Yes" : `₹${food.price}`}</p>
-                {food.location?.coordinates && (
-                  <p>
-                    <strong>Location (Lat, Lng):</strong>{" "}
-                    {food.location.coordinates[1]}, {food.location.coordinates[0]}
-                  </p>
-                )}
-                <Button onClick={() => handleReserve(food._id)} className='bg-red-500 hover:bg-red-700'>Reserve</Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };

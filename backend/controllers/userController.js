@@ -1,9 +1,7 @@
 import User from '../models/User.js';
 
-// @desc    Get user profile
-// @route   GET /api/users/profile
-// @access  Private
-export const getUserProfile = async (req, res) => {
+export const getUserProfile = async (req, res) => {  // GET /api/users/profile
+
   try {
     const user = await User.findById(req.user._id).select('-password');
 
@@ -17,10 +15,9 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
-export const updateUserProfile = async (req, res) => {
+
+export const updateUserProfile = async (req, res) => {  // PUT /api/users/profile
+  // Update user profile
   try {
     const user = await User.findById(req.user._id);
 

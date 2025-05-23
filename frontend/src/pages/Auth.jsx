@@ -27,7 +27,7 @@ export default function Auth() {
       localStorage.setItem("token", res.data.token);
       alert(`✅ Logged in as: ${loginData.email}`);
       navigate("/profile"); 
-      setTimeout(() => window.location.reload(), 100); // reload after navigation
+      setTimeout(() => window.location.reload(), 100); 
     } catch (err) {
       alert("❌ Error: " + (err.response?.data?.message || "Login failed"));
     }

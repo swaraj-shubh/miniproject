@@ -24,20 +24,6 @@ export default function RestaurantDashboard() {
     address: "",
   });
 
-  // API function to post donation
-  // const donateFood = (data) => {
-  //   return axios.post(
-  //     (import.meta.env.VITE_API_URL || "http://localhost:5000") + "/api/foods/donate",
-  //     data,
-  //     {
-  //       withCredentials: true,
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-  //       },
-  //     }
-  //   );
-  // };
-
   const donateFood = (data) => {
     return API.post("/foods/donate", data);
   };
