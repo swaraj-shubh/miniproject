@@ -1,12 +1,12 @@
 import axios from "axios";
 
-// Set up a base instance
+
 const API = axios.create({
   baseURL: import.meta.env.URL || "http://localhost:8000/api",
   withCredentials: true, // if you're using cookies for auth
 });
 
-// Set token header if available
+
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -30,7 +30,3 @@ export const getFoodById = (id) => API.get(`/foods/${id}`);
 export const reserveFood = (id) => API.put(`/foods/${id}/reserve`);
 export const getAvailableFoods = () => API.get("/foods/donate");
 
-// export const getAvailableFoods = async () => {
-//     const response = await API.get("/foods/donate");
-//     return response.data;
-//   };

@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "@/api/axios";
+import LocationPickerMap from "@/components/LocationPickerMap";
+import MapSearch from "@/components/MapSearch";
 
 export default function RestaurantDashboard() {
   const navigate = useNavigate();
@@ -181,7 +183,7 @@ export default function RestaurantDashboard() {
               />
             )}
 
-            <label>Location Coordinates *</label>
+            {/* <label>Location Coordinates *</label>
             <div className="flex space-x-2">
               <Input
                 type="number"
@@ -201,7 +203,36 @@ export default function RestaurantDashboard() {
                 onChange={handleChange}
                 required
               />
+            </div> */}
+
+            <div>
+              <label className="block font-medium mb-1">Select Restaurant Location *</label>
+              <LocationPickerMap
+                onLocationSelect={(coords) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    location: { ...prev.location, coordinates: coords },
+                  }))
+                }
+              />
+              <p className="text-sm text-gray-500">
+                Selected: {formData.location.coordinates[1]}, {formData.location.coordinates[0]}
+              </p>
+              {/* <MapSearch
+                lat={formData.location.coordinates[1] || 23.3441}
+                lng={formData.location.coordinates[0] || 85.3096}
+                name={formData.name}
+                setLatLng={({ lat, lng, address }) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    location: { coordinates: [lng, lat] },
+                    address,
+                  }))
+                }
+              /> */}
+
             </div>
+
 
             <Input
               name="address"

@@ -3,6 +3,8 @@ import { getAvailableFoods, reserveFood } from "@/api/axios";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { Map } from "../components/Map";
+
 
 const NGODashboard = () => {
   const [foods, setFoods] = useState([]);
@@ -54,19 +56,33 @@ const NGODashboard = () => {
                 <p>{food.description}</p>
                 {food.image && (
                    <img
-                   src={item.images[0]} // base64 image
+                   src={item.images} // base64 image
                    alt={item.name}
                    className="rounded-xl object-cover w-full h-64"
                  />
                 )}
+                {/* {food.image && (
+                  <img
+                    src={
+                      food.image.startsWith("data:image")
+                        ? food.image
+                        : `data:image/jpeg;base64,${food.image}`
+                    }
+                    alt={food.name}
+                    className="rounded-xl object-cover w-full h-64"
+                  />
+                )} */}
+
                 <p><strong>Quantity:</strong> {food.quantity}</p>
                 <p><strong>Donor:</strong> {food.donor?.name || "N/A"}</p>
                 <p><strong>Prep Date:</strong> {new Date(food.preparationDate).toLocaleDateString()}</p>
                 <p><strong>Expiry:</strong> {new Date(food.expiryDate).toLocaleDateString()}</p>
                 <p><strong>Address:</strong> {food.address}</p>
-                <p><strong>Free:</strong> {food.isFree ? "Yes" : `₹${food.price}`}</p>
+                <p><strong>Cost:</strong> {food.isFree ? "free" : `₹${food.price}`}</p>
                 {food.location?.coordinates && (
                   <p>
+                    <Map lat={food.location.coordinates[1]} lng={food.location.coordinates[0]} name={food.name} />
+
                     <strong>Location (Lat, Lng):</strong>{" "}
                     {food.location.coordinates[1]}, {food.location.coordinates[0]}
                   </p>
