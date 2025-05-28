@@ -6,12 +6,13 @@ import RestaurantDashboard from './pages/RestaurantDashboard';
 import Navbar from './components/Navbar';
 import Auth from './pages/Auth';
 import Profile from './pages/Profile';
+import Footer from './pages/Footer';
 
 function App() {
   return (
     <Routerz_Hehe className="min-h-screen bg-gray-100">
-      <div className='flex-grow container mx-auto px-2'>{/* px..*/}
-        <header className="">
+      <div className='flex-grow container mx-auto'>{/* px..*/}
+        <header className="px-2 ">
           <Navbar />
         </header>
         <main className='flex-grow container mx-auto px-4 py-8'>
@@ -24,11 +25,8 @@ function App() {
             <Route path='*' element={<div className='text-center text-gray-600'>404 - ja bsdk 0I0</div>} />
           </Routes>
         </main>
-
-        <footer className='bg-white shadow-inner py-4 mt-8'>
-          <div className='container mx-auto px-4 text-center text-gray-600'>
-            <p>© {new Date().getFullYear()} Food Sharing App. All rights reserved.</p>
-          </div>
+        <footer className="bg-gray-800 text-white py-6">
+          <Footer />
         </footer>
       </div>
     </Routerz_Hehe>
