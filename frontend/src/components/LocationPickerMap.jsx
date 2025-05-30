@@ -62,8 +62,8 @@ export default function LocationPickerMap({ onLocationSelect }) {
 
   return (
     <MapContainer
-      center={[23.3441, 85.3096]} // Ranchi
-      zoom={13}
+      center={[12.9080421101289, 77.56651074608816]} // Ranchi
+      zoom={15}
       scrollWheelZoom={true}
       className="h-[300px] w-full rounded-md"
     >

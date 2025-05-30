@@ -38,10 +38,7 @@ app.get('/', (req, res) => {
 });
 
 mongoose
-  .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGO_URI)
   .then(() => {
     console.log("✅ ho gaya connect mubarak!");
     app.listen(PORT, () =>
