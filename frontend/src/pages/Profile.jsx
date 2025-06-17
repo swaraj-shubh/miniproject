@@ -19,6 +19,15 @@ const Profile = () => {
   const [profileData, setProfileData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    password: "",
+  });
+
 
 
   useEffect(() => {
@@ -30,6 +39,13 @@ const Profile = () => {
     try {
       const res = await getUserProfile();
       setProfileData(res.data);
+      setFormData({
+        name: res.data.name || "",
+        email: res.data.email || "",
+        phone: res.data.phone || "",
+        address: res.data.address || "",
+        password: "",
+      });
     } catch (error) {
       toast.error("Failed to fetch donated food items");
       console.error(error);
@@ -37,6 +53,20 @@ const Profile = () => {
       setLoading(false);
     }
   };
+
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      await updateUserProfile(formData);
+      toast.success("Profile updated successfully");
+      setEditMode(false);
+      fetchProfile(); // Refresh data
+    } catch (error) {
+      toast.error("Failed to update profile");
+      console.error(error);
+    }
+  };
+  
 
   const fetchFoods = async () => {
     try {
@@ -95,108 +125,182 @@ const Profile = () => {
       </div>
     </div>
   ) : (
-    <div className="max-w-7xl mx-auto">
-      {/* Profile Section */}
-      <div className="mb-10">
-        <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
-          Your Profile
-        </h2>
-        <Card className="w-full shadow-lg rounded-2xl border border-orange-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-orange-400 to-amber-400 h-3"></div>
-          <CardContent className="p-8">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="bg-orange-100 w-32 h-32 rounded-full flex items-center justify-center">
-                <img 
-                  src="./../../public/profile-pic.png" 
-                  alt="Profile" 
-                  className="h-20 w-20"
+    <>
+      <div className="max-w-7xl mx-auto">
+
+        {/* Profile Section */}
+        {!editMode &&(<div className="mb-10">
+          <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
+            Your Profile
+          </h2>
+          <Card className="w-full shadow-lg rounded-2xl border border-orange-100 overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-400 to-amber-400 h-3"></div>
+            <CardContent className="p-8">
+              <div className="flex flex-col md:flex-row gap-8 items-center">
+                <div className="bg-orange-100 w-32 h-32 rounded-full flex items-center justify-center">
+                  <img 
+                    src="./../../public/profile-pic.png" 
+                    alt="Profile" 
+                    className="h-20 w-20"
+                  />
+                </div>
+                <div className="flex-1 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">Name</p>
+                      <h3 className="text-xl font-semibold">{profileData.name}</h3>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">Email</p>
+                      <p className="text-xl">{profileData.email}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">Role</p>
+                      <p className="text-xl capitalize">{profileData.role}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">Member Since</p>
+                      <p className="text-xl">{new Date(profileData.createdAt).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    className="border-orange-500 text-orange-500 hover:bg-orange-50 mt-4"
+                    onClick={() => setEditMode(true)}
+                  >
+                    Edit Profile
+                  </Button>
+
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>)}
+
+        {/* Edit mode */}
+        {editMode && (
+          <form
+            onSubmit={handleProfileUpdate}
+            className="bg-white border border-orange-200 p-6 mt-4 rounded-xl shadow-sm space-y-4"
+          >
+            <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
+            Edit Your Profile
+          </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  required
                 />
               </div>
-              <div className="flex-1 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Name</p>
-                    <h3 className="text-xl font-semibold">{profileData.name}</h3>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Email</p>
-                    <p className="text-xl">{profileData.email}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Role</p>
-                    <p className="text-xl capitalize">{profileData.role}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Member Since</p>
-                    <p className="text-xl">{new Date(profileData.createdAt).toLocaleDateString()}</p>
-                  </div>
-                </div>
-                <Button 
-                  variant="outline" 
-                  className="border-orange-500 text-orange-500 hover:bg-orange-50 mt-4"
-                >
-                  Edit Profile
-                </Button>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Phone</label>
+                <input
+                  type="text"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Address</label>
+                <input
+                  type="text"
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm text-gray-600 mb-1">New Password (optional)</label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+            <div className="flex gap-3 pt-4">
+              <Button type="submit" className="bg-orange-500 text-white hover:bg-orange-600">
+                Save Changes
+              </Button>
+              <Button type="button" variant="outline" onClick={() => setEditMode(false)}>
+                Cancel
+              </Button>
+            </div>
+          </form>
+        )}
 
-      {/* Donation History Section */}
-      <div>
-        <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
-          Your Food History
-        </h2>
-        <Card className="w-full shadow-lg rounded-2xl border border-orange-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-orange-400 to-amber-400 h-3"></div>
-          <CardContent className="p-6">
-            <Tabs defaultValue="donated" className="w-full">
-              <TabsList className="mb-6 grid grid-cols-2 gap-2 bg-orange-50 rounded-lg p-1">
-                <TabsTrigger 
-                  value="donated" 
-                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white transition-all"
-                >
-                  Donated
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="recieved" 
-                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white transition-all"
-                >
-                  Received
-                </TabsTrigger>
-              </TabsList>
 
-              <TabsContent value="donated">
-                {loading ? (
-                  <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
-                  </div>
-                ) : foods.length === 0 ? (
-                  <Card className='flex flex-col items-center justify-center p-8 h-64 bg-orange-50 rounded-xl'>
-                    <img 
-                      src="./../../public/bag.jpg" 
-                      alt="No donations" 
-                      className="h-24 mb-4"
-                    />
-                    <h3 className="text-xl font-semibold text-gray-700 mb-2">No food items donated yet</h3>
-                    <p className="text-gray-500 text-center">
-                      Your donated food items will appear here when you share meals with the community
-                    </p>
-                    <Button 
-                      onClick={() => navigate("/donate")} 
-                      className="mt-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white"
-                    >
-                      Donate Food Now
-                    </Button>
-                  </Card>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {foods.map((food) => (
-                      <Card key={food._id} className="hover:shadow-lg transition-shadow duration-300">
-                        <CardContent className="p-4 space-y-4">
+        {/* Donation History Section */}
+        <div>
+          <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
+            Your Food History
+          </h2>
+          <Card className="w-full shadow-lg rounded-2xl border border-orange-100 overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-400 to-amber-400 h-3"></div>
+            <CardContent className="p-6">
+              <Tabs defaultValue="donated" className="w-full">
+                <TabsList className="mb-6 grid grid-cols-2 gap-2 bg-orange-50 rounded-lg p-1">
+                  <TabsTrigger 
+                    value="donated" 
+                    className="data-[state=active]:bg-orange-500 data-[state=active]:text-white transition-all"
+                  >
+                    Donated
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="recieved" 
+                    className="data-[state=active]:bg-orange-500 data-[state=active]:text-white transition-all"
+                  >
+                    Received
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="donated">
+                  {loading ? (
+                    <div className="flex justify-center items-center h-64">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+                    </div>
+                  ) : foods.length === 0 ? (
+                    <Card className='flex flex-col items-center justify-center p-8 h-64 bg-orange-50 rounded-xl'>
+                      <img 
+                        src="./../../public/bag.jpg" 
+                        alt="No donations" 
+                        className="h-24 mb-4"
+                      />
+                      <h3 className="text-xl font-semibold text-gray-700 mb-2">No food items donated yet</h3>
+                      <p className="text-gray-500 text-center">
+                        Your donated food items will appear here when you share meals with the community
+                      </p>
+                      <Button 
+                        onClick={() => navigate("/donate")} 
+                        className="mt-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white"
+                      >
+                        Donate Food Now
+                      </Button>
+                    </Card>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {foods.map((food) => (
+                        <Card key={food._id} className="hover:shadow-lg transition-shadow duration-300">
+                          <CardContent className="p-4 space-y-4">
                           <div className="relative h-48 rounded-xl overflow-hidden">
-                            {food.image ? (
+                            {food.images?.[0] ? (
                               <img
                                 src={food.images[0]}
                                 alt={food.name}
@@ -205,80 +309,81 @@ const Profile = () => {
                             ) : (
                               <div className="w-full h-full bg-orange-100 flex items-center justify-center">
                                 <img 
-                                  src="./food-placeholder.png" 
+                                  src="./../../public/bag.jpg" 
                                   alt="Food placeholder" 
                                   className="h-24 opacity-50"
                                 />
                               </div>
                             )}
                           </div>
-                          <h3 className="text-xl font-semibold">{food.name}</h3>
-                          <p className="text-gray-600 line-clamp-2">{food.description}</p>
-                          
-                          <div className="grid grid-cols-2 gap-2 text-sm">
-                            <div className="flex items-center">
-                              <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              {new Date(food.expiryDate).toLocaleDateString()}
-                            </div>
-                            <div className="flex items-center">
-                              <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                              </svg>
-                              {food.address.split(',')[0]}
-                            </div>
-                            <div className="flex items-center">
-                              <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                              </svg>
-                              {food.quantity} servings
-                            </div>
-                            <div className="flex items-center">
-                              <span className={`px-2 py-1 rounded-full text-xs ${
-                                food.isFree ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
-                              }`}>
-                                {food.isFree ? "FREE" : `₹${food.price}`}
-                              </span>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                )}
-              </TabsContent>
 
-              <TabsContent value="recieved">
-                {loading ? (
-                  <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
-                  </div>
-                ) : receivedFoods.length === 0 ? (
-                  <Card className='flex flex-col items-center justify-center p-8 h-64 bg-orange-50 rounded-xl'>
-                    <img 
-                      src="./../../public/empty-plate.jpg" 
-                      alt="No received items" 
-                      className="h-24 mb-4"
-                    />
-                    <h3 className="text-xl font-semibold text-gray-700 mb-2">No food items received yet</h3>
-                    <p className="text-gray-500 text-center">
-                      Food items you receive from donors will appear here
-                    </p>
-                    <Button 
-                      onClick={() => navigate("/foods")} 
-                      className="mt-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white"
-                    >
-                      Browse Available Food
-                    </Button>
-                  </Card>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {receivedFoods.map((food) => (
-                      <Card key={food._id} className="hover:shadow-lg transition-shadow duration-300">
-                        <CardContent className="p-4 space-y-4">
+                            <h3 className="text-xl font-semibold">{food.name}</h3>
+                            <p className="text-gray-600 line-clamp-2">{food.description}</p>
+                            
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                              <div className="flex items-center">
+                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {new Date(food.expiryDate).toLocaleDateString()}
+                              </div>
+                              <div className="flex items-center">
+                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                </svg>
+                                {food.address.split(',')[0]}
+                              </div>
+                              <div className="flex items-center">
+                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                                {food.quantity} servings
+                              </div>
+                              <div className="flex items-center">
+                                <span className={`px-2 py-1 rounded-full text-xs ${
+                                  food.isFree ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                                }`}>
+                                  {food.isFree ? "FREE" : `₹${food.price}`}
+                                </span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="recieved">
+                  {loading ? (
+                    <div className="flex justify-center items-center h-64">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+                    </div>
+                  ) : receivedFoods.length === 0 ? (
+                    <Card className='flex flex-col items-center justify-center p-8 h-64 bg-orange-50 rounded-xl'>
+                      <img 
+                        src="./../../public/empty-plate.jpg" 
+                        alt="No received items" 
+                        className="h-24 mb-4"
+                      />
+                      <h3 className="text-xl font-semibold text-gray-700 mb-2">No food items received yet</h3>
+                      <p className="text-gray-500 text-center">
+                        Food items you receive from donors will appear here
+                      </p>
+                      <Button 
+                        onClick={() => navigate("/foods")} 
+                        className="mt-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white"
+                      >
+                        Browse Available Food
+                      </Button>
+                    </Card>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {receivedFoods.map((food) => (
+                        <Card key={food._id} className="hover:shadow-lg transition-shadow duration-300">
+                          <CardContent className="p-4 space-y-4">
                           <div className="relative h-48 rounded-xl overflow-hidden">
-                            {food.image ? (
+                            {food.images?.[0] ? (
                               <img
                                 src={food.images[0]}
                                 alt={food.name}
@@ -287,54 +392,56 @@ const Profile = () => {
                             ) : (
                               <div className="w-full h-full bg-orange-100 flex items-center justify-center">
                                 <img 
-                                  src="./../../public/empty-plate.jpgg" 
+                                  src="./../../public/bag.jpg" 
                                   alt="Food placeholder" 
                                   className="h-24 opacity-50"
                                 />
                               </div>
                             )}
                           </div>
-                          <h3 className="text-xl font-semibold">{food.name}</h3>
-                          <p className="text-gray-600 line-clamp-2">{food.description}</p>
-                          
-                          <div className="grid grid-cols-2 gap-2 text-sm">
-                            <div className="flex items-center">
-                              <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              {new Date(food.expiryDate).toLocaleDateString()}
+
+                            <h3 className="text-xl font-semibold">{food.name}</h3>
+                            <p className="text-gray-600 line-clamp-2">{food.description}</p>
+                            
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                              <div className="flex items-center">
+                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {new Date(food.expiryDate).toLocaleDateString()}
+                              </div>
+                              <div className="flex items-center">
+                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                </svg>
+                                {food.address.split(',')[0]}
+                              </div>
+                              <div className="flex items-center">
+                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                                {food.quantity} servings
+                              </div>
+                              <div className="flex items-center">
+                                <span className={`px-2 py-1 rounded-full text-xs ${
+                                  food.isFree ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                                }`}>
+                                  {food.isFree ? "FREE" : `₹${food.price}`}
+                                </span>
+                              </div>
                             </div>
-                            <div className="flex items-center">
-                              <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                              </svg>
-                              {food.address.split(',')[0]}
-                            </div>
-                            <div className="flex items-center">
-                              <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                              </svg>
-                              {food.quantity} servings
-                            </div>
-                            <div className="flex items-center">
-                              <span className={`px-2 py-1 rounded-full text-xs ${
-                                food.isFree ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
-                              }`}>
-                                {food.isFree ? "FREE" : `₹${food.price}`}
-                              </span>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                )}
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   )}
 </div>
 

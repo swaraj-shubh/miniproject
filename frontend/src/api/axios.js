@@ -28,5 +28,5 @@ export const getDonatedFoods = () => API.get("/foods/donated");
 export const getReceivedFoods = () => API.get("/foods/received");
 export const getFoodById = (id) => API.get(`/foods/${id}`);
 export const reserveFood = (id) => API.put(`/foods/${id}/reserve`);
-export const getAvailableFoods = () => API.get("/foods/donate");
-
+export const getAvailableFoods = () => API.get("/foods/donate")
+export const admin = () => API.get("/foods/admin")

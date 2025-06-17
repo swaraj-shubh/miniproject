@@ -6,10 +6,13 @@ function Navbar() {
     const location = useLocation();
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [role, setRole] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("token"); // or sessionStorage
+        const token = localStorage.getItem("token");
+        const userRole = localStorage.getItem("role");
         setIsAuthenticated(!!token);
+        setRole(userRole);
     }, []);
 
     const handleLogout = () => {
@@ -56,6 +59,16 @@ function Navbar() {
                                     <Link to="/profile" className={getLinkClass("/profile")}>Profile</Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
+
+                            {role === "admin" && (
+                                <NavigationMenuItem>
+                                <NavigationMenuLink asChild>
+                                    <Link to="/admin" className={getLinkClass("/admin")}>
+                                    Admin
+                                    </Link>
+                                </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            )}
 
 
                             <NavigationMenuItem className="">
