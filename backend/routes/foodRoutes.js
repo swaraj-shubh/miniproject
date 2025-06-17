@@ -27,7 +27,7 @@ router.route('/donate')
     }
   });
   
-router.route('/available').get(getAllDonatedFoods);
+router.route('/admin').get(getAllDonatedFoods);
 router.route('/donated').get(protect, getDonatedFoods);
 router.route('/received').get(protect, getReceivedFoods);
 router.route('/:id').get(getFoodById);
