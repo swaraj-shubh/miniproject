@@ -32,5 +32,4 @@ router.route('/donated').get(protect, getDonatedFoods);
 router.route('/received').get(protect, getReceivedFoods);
 router.route('/:id').get(getFoodById);
 router.route('/:id/reserve').put(protect, reserveFood);
-router.get('/all', getAllDonatedFoods);
 export default router;
