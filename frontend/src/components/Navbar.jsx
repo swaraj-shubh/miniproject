@@ -17,7 +17,9 @@ function Navbar() {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
         setIsAuthenticated(false);
+        setRole(null);
         navigate("/");
     };
 
@@ -44,14 +46,13 @@ function Navbar() {
                                 <Link to="/ngoDashboard" className={getLinkClass("/ngoDashboard")}>Find Food</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
-
+                        {role === 'donor' && (
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild>
                                 <Link to="/restaurantDashboard" className={getLinkClass("/restaurantDashboard")}>Donate</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
-
-
+                        )}
                         {/* Right side ke items yaha se start h */}
                         <div className="ml-auto flex items-center gap-4">
                             <NavigationMenuItem>
@@ -60,13 +61,11 @@ function Navbar() {
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
 
-                            {role === "admin" && (
+                            {role === 'admin' && (
                                 <NavigationMenuItem>
-                                <NavigationMenuLink asChild>
-                                    <Link to="/admin" className={getLinkClass("/admin")}>
-                                    Admin
-                                    </Link>
-                                </NavigationMenuLink>
+                                    <NavigationMenuLink asChild>
+                                        <Link to="/admin" className={getLinkClass("/admin")}>Admin</Link>
+                                    </NavigationMenuLink>
                                 </NavigationMenuItem>
                             )}
 

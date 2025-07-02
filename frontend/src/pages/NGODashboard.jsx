@@ -23,7 +23,7 @@ const NGODashboard = () => {
       const res = await getAvailableFoods();
       setFoods(res.data);
     } catch (error) {
-      toast.error("Failed to fetch donated food items");
+      toast.error("❌ Failed to fetch donated food items");
       console.error(error);
     } finally {
       setLoading(false);
@@ -33,12 +33,12 @@ const NGODashboard = () => {
   const handleReserve = async (id) => {
     try {
       await reserveFood(id);
-      toast.success("Food reserved successfully");
+      toast.success("✅ Food reserved successfully");
       fetchFoods(); // Refresh the list
-      alert("Food reserved successfully");
+      alert("✅ Food reserved successfully");
     } catch (error) {
-      toast.error("Failed to reserve food");
-      alert("Failed to reserve food");
+      toast.error("❌ Failed to reserve food");
+      alert("❌ Failed to reserve food");
       console.error(error);
     }
   };

@@ -36,9 +36,13 @@ const Profile = () => {
   }, [] );
 
   const fetchProfile = async () => {
+    
     try {
       const res = await getUserProfile();
       setProfileData(res.data);
+      localStorage.setItem("role", res.data.role);
+      // setTimeout(() => window.location.reload(), 100); 
+      // console.log('role: ',res.data.role)
       setFormData({
         name: res.data.name || "",
         email: res.data.email || "",
