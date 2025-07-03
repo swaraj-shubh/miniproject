@@ -16,11 +16,22 @@ import { Mail, Lock, User, Users } from 'lucide-react';
 export default function Auth() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [signupData, setSignupData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "",
+    name: '',
+    email: '',
+    password: '',
+    role: '',
+    phone: '',
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      latitude: '',
+      longitude: ''
+    }
   });
+  
   const [profileData, setProfileData] = useState([]);
   const navigate = useNavigate();
 
@@ -60,7 +71,9 @@ export default function Auth() {
   };
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-2xl rounded-2xl overflow-hidden border border-orange-100">
+      <Card className="w-full max-w-2xl shadow-2xl rounded-2xl overflow-hidden border border-orange-100">
+      {/* <Card className="w-full min-h-screen shadow-none rounded-none border-0"> */}
+
         {/* Food-themed header image */}
         <div className="relative h-32 bg-orange-500 overflow-hidden">
           <img 
@@ -93,8 +106,8 @@ export default function Auth() {
             </TabsList>
   
             {/* Login Tab */}
-            <TabsContent value="login">
-              <form onSubmit={handleLogin} className="space-y-6">
+            <TabsContent value="login" className="justify-center">
+              <form onSubmit={handleLogin} className="max-w-sm mx-auto space-y-6">
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="login-email" className="block text-sm font-medium text-amber-900 mb-1">
@@ -142,9 +155,11 @@ export default function Auth() {
             </TabsContent>
   
             {/* Sign Up Tab */}
-            <TabsContent value="signup">
+            <TabsContent value="signup" className="justify-center">
               <form onSubmit={handleSignup} className="space-y-6">
-                <div className="space-y-4">
+              {/* <div className=" gap-4"> */}
+                {/* Personal Details */}
+                <div className="max-w-sm mx-auto space-y-6">
                   <div>
                     <label htmlFor="signup-name" className="block text-sm font-medium text-amber-900 mb-1">
                       Full Name
@@ -181,7 +196,6 @@ export default function Auth() {
                         <option value="" disabled hidden>Select your role</option>
                         <option value="donor">Food Donor</option>
                         <option value="receiver">Food Receiver</option>
-                        {/* <option value="admin">Organization Admin</option> */}
                       </select>
                       <Users className="absolute left-3 top-2.5 h-5 w-5 text-orange-400" />
                     </div>
@@ -225,6 +239,120 @@ export default function Auth() {
                     </div>
                   </div>
                 </div>
+                {/* Address Section */}
+                <div className=" pt-2 border-t border-orange-100">
+                  <h2 className="text-lg font-semibold text-amber-900 mb-2">Address Details</h2>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm text-amber-900 mb-1">Street</label>
+                      <Input
+                        type="text"
+                        placeholder="123 Main Street"
+                        value={signupData.address?.street || ''}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            address: { ...signupData.address, street: e.target.value }
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-amber-900 mb-1">City</label>
+                      <Input
+                        type="text"
+                        placeholder="Ranchi"
+                        value={signupData.address?.city || ''}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            address: { ...signupData.address, city: e.target.value }
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-amber-900 mb-1">State</label>
+                      <Input
+                        type="text"
+                        placeholder="Jharkhand"
+                        value={signupData.address?.state || ''}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            address: { ...signupData.address, state: e.target.value }
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-amber-900 mb-1">Zip Code</label>
+                      <Input
+                        type="text"
+                        placeholder="834001"
+                        value={signupData.address?.zipCode || ''}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            address: { ...signupData.address, zipCode: e.target.value }
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-amber-900 mb-1">Country</label>
+                      <Input
+                        type="text"
+                        placeholder="India"
+                        value={signupData.address?.country || ''}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            address: { ...signupData.address, country: e.target.value }
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-amber-900 mb-1">Latitude</label>
+                      <Input
+                        type="number"
+                        placeholder="23.3441"
+                        value={signupData.address?.latitude || ''}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            address: { ...signupData.address, latitude: parseFloat(e.target.value) }
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-amber-900 mb-1">Longitude</label>
+                      <Input
+                        type="number"
+                        placeholder="85.3096"
+                        value={signupData.address?.longitude || ''}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            address: { ...signupData.address, longitude: parseFloat(e.target.value) }
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              {/* </div> */}
+
                 <Button type="submit" className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white py-2 rounded-md transition-all shadow-md hover:shadow-orange-200">
                   Create Account
                 </Button>

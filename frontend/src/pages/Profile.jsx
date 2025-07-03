@@ -36,22 +36,27 @@ const Profile = () => {
   }, [] );
 
   const fetchProfile = async () => {
-    
     try {
       const res = await getUserProfile();
       setProfileData(res.data);
       localStorage.setItem("role", res.data.role);
-      // setTimeout(() => window.location.reload(), 100); 
-      // console.log('role: ',res.data.role)
+  
       setFormData({
         name: res.data.name || "",
         email: res.data.email || "",
         phone: res.data.phone || "",
-        address: res.data.address || "",
+        address: {
+          street: res.data.address?.street || "",
+          city: res.data.address?.city || "",
+          state: res.data.address?.state || "",
+          zipCode: res.data.address?.zipCode || "",
+          country: res.data.address?.country || "",
+          latitude: res.data.address?.latitude || "",
+          longitude: res.data.address?.longitude || ""
+        },
         password: "",
       });
     } catch (error) {
-      toast.error("Failed to fetch donated food items");
       console.error(error);
     } finally {
       setLoading(false);
@@ -106,29 +111,29 @@ const Profile = () => {
 
 
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50 p-6">
-  {!isLoggedIn ? (
-    <div className="flex flex-col items-center justify-center h-[70vh] text-center">
-      <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full border border-orange-100">
-        <img 
-          src="./../../public/locked.jpeg" 
-          alt="Login required" 
-          className="h-40 mx-auto mb-6"
-        />
-        <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
-          Access Your Profile
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Please login to view your donation history and profile details
-        </p>
-        <Button
-          onClick={() => navigate("/auth")}
-          className="w-full py-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold rounded-lg shadow-md transition-all"
-        >
-          Go to Login Page
-        </Button>
-      </div>
-    </div>
-  ) : (
+      {!isLoggedIn ? (
+        <div className="flex flex-col items-center justify-center h-[70vh] text-center">
+          <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full border border-orange-100">
+            <img 
+              src="./../../public/locked.jpeg" 
+              alt="Login required" 
+              className="h-40 mx-auto mb-6"
+            />
+            <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
+              Access Your Profile
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Please login to view your donation history and profile details
+            </p>
+            <Button
+              onClick={() => navigate("/auth")}
+              className="w-full py-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold rounded-lg shadow-md transition-all"
+            >
+              Go to Login Page
+            </Button>
+          </div>
+        </div>
+      ) : (
     <>
       <div className="max-w-7xl mx-auto">
 
@@ -177,12 +182,190 @@ const Profile = () => {
 
                 </div>
               </div>
+              {/* Address Block */}
+              <h2 className="text-2xl mt-8 font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
+                Your Address Info:
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-orange-100">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Street</p>
+                  <p className="text-lg">{profileData.address?.street || "—"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">City</p>
+                  <p className="text-lg">{profileData.address?.city || "—"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">State</p>
+                  <p className="text-lg">{profileData.address?.state || "—"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Zip Code</p>
+                  <p className="text-lg">{profileData.address?.zipCode || "—"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Country</p>
+                  <p className="text-lg">{profileData.address?.country || "—"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Latitude</p>
+                  <p className="text-lg">{profileData.address?.latitude || "—"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Longitude</p>
+                  <p className="text-lg">{profileData.address?.longitude || "—"}</p>
+                </div>
+              </div>
+
             </CardContent>
           </Card>
         </div>)}
 
         {/* Edit mode */}
         {editMode && (
+          <form
+            onSubmit={handleProfileUpdate}
+            className="bg-white border border-orange-200 p-6 mt-4 rounded-xl shadow-sm space-y-4"
+          >
+            <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
+              Edit Your Profile
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Phone</label>
+                <input
+                  type="text"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+
+              {/* 🔽 Updated Address Section (Split Fields) */}
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Street</label>
+                <input
+                  type="text"
+                  value={formData.address?.street || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: { ...formData.address, street: e.target.value } })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">City</label>
+                <input
+                  type="text"
+                  value={formData.address?.city || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: { ...formData.address, city: e.target.value } })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">State</label>
+                <input
+                  type="text"
+                  value={formData.address?.state || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: { ...formData.address, state: e.target.value } })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Zip Code</label>
+                <input
+                  type="text"
+                  value={formData.address?.zipCode || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: { ...formData.address, zipCode: e.target.value } })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Country</label>
+                <input
+                  type="text"
+                  value={formData.address?.country || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: { ...formData.address, country: e.target.value } })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Latitude</label>
+                <input
+                  type="number"
+                  step="any"
+                  value={formData.address?.latitude || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: { ...formData.address, latitude: parseFloat(e.target.value) } })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Longitude</label>
+                <input
+                  type="number"
+                  step="any"
+                  value={formData.address?.longitude || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: { ...formData.address, longitude: parseFloat(e.target.value) } })
+                  }
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+
+              {/* 🔐 Password */}
+              <div className="md:col-span-2">
+                <label className="block text-sm text-gray-600 mb-1">New Password (optional)</label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-4">
+              <Button type="submit" className="bg-orange-500 text-white hover:bg-orange-600">
+                Save Changes
+              </Button>
+              <Button type="button" variant="outline" onClick={() => setEditMode(false)}>
+                Cancel
+              </Button>
+            </div>
+          </form>
+        )}
+
+        {/* {editMode && (
           <form
             onSubmit={handleProfileUpdate}
             className="bg-white border border-orange-200 p-6 mt-4 rounded-xl shadow-sm space-y-4"
@@ -248,7 +431,7 @@ const Profile = () => {
               </Button>
             </div>
           </form>
-        )}
+        )} */}
 
 
         {/* Donation History Section */}

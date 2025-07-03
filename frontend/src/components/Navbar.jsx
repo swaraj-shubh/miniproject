@@ -46,6 +46,13 @@ function Navbar() {
                                 <Link to="/ngoDashboard" className={getLinkClass("/ngoDashboard")}>Find Food</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/map" className={getLinkClass("/map")}>Show Map</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+
                         {role === 'donor' && (
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild>

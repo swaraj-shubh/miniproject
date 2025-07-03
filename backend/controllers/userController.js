@@ -1,6 +1,6 @@
 import User from '../models/User.js';
 
-export const getUserProfile = async (req, res) => {  // GET /api/users/profile
+export const getUserProfile = async (req, res) => {   // GET /api/users/profile
 
   try {
     const user = await User.findById(req.user._id).select('-password');
@@ -17,7 +17,7 @@ export const getUserProfile = async (req, res) => {  // GET /api/users/profile
 
 
 export const updateUserProfile = async (req, res) => {  // PUT /api/users/profile
-  // Update user profile
+
   try {
     const user = await User.findById(req.user._id);
 
@@ -25,7 +25,15 @@ export const updateUserProfile = async (req, res) => {  // PUT /api/users/profil
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       user.phone = req.body.phone || user.phone;
-      user.address = req.body.address || user.address;
+
+      // 🔧 Update nested address fields individually if present
+      user.address.street = req.body.address?.street || user.address.street;
+      user.address.city = req.body.address?.city || user.address.city;
+      user.address.state = req.body.address?.state || user.address.state;
+      user.address.zipCode = req.body.address?.zipCode || user.address.zipCode;
+      user.address.country = req.body.address?.country || user.address.country;
+      user.address.latitude = req.body.address?.latitude ?? user.address.latitude;
+      user.address.longitude = req.body.address?.longitude ?? user.address.longitude;
 
       if (req.body.password) {
         user.password = req.body.password;
@@ -48,3 +56,5 @@ export const updateUserProfile = async (req, res) => {  // PUT /api/users/profil
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+

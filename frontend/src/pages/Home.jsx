@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import Map from './Map';
 export default function Home() {
   const navigate = useNavigate();
   // useEffect(() => {
@@ -43,7 +44,6 @@ export default function Home() {
                 </p>
               </div>
 
-
               <h1 className="text-5xl font-bold text-white">Fight Hunger, One Meal at a Time 🍛</h1>
               <p className="text-xl mt-4 text-white">Connecting leftover food from restaurants to NGOs and those in need.</p>
               <div className="mt-8 space-x-4">
@@ -70,6 +70,8 @@ export default function Home() {
                 </div>
               </div>
             </section>
+                          <Map />
+
             <section className="bg-gray-100 py-16">
               <div className="text-center">
                 <h2 className="text-3xl font-bold">Our Impact</h2>

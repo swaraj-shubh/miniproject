@@ -17,11 +17,13 @@ const userSchema = new mongoose.Schema(
       required: true
     },
     address: {
-      street: String,
-      city: String,
-      state: String,
-      zipCode: String,
-      country: String
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      zipCode: { type: String, required: true },
+      country: { type: String, required: true },
+      latitude: { type: Number, required: true },
+      longitude: { type: Number, required: true }
     },
     phone: String,
     role: {
@@ -41,7 +43,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 10);
@@ -52,7 +53,4 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-
-
 export default mongoose.model('User', userSchema);
-
