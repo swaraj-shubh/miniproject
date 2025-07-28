@@ -53,7 +53,7 @@ function Navbar() {
                             </NavigationMenuLink>
                         </NavigationMenuItem>
 
-                        {role === 'donor' && (
+                        {(role === 'donor' || role === 'admin') && (
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild>
                                 <Link to="/restaurantDashboard" className={getLinkClass("/restaurantDashboard")}>Donate</Link>

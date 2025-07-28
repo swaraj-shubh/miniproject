@@ -24,7 +24,15 @@ const Profile = () => {
     name: "",
     email: "",
     phone: "",
-    address: "",
+    address: {
+      street:  "",
+      city:  "",
+      state:  "",
+      zipCode:  "",
+      country:  "",
+      latitude:  "",
+      longitude:  ""
+    },
     password: "",
   });
 
@@ -68,10 +76,12 @@ const Profile = () => {
     try {
       await updateUserProfile(formData);
       toast.success("Profile updated successfully");
+      alert("✅ Profile updated successfully");
       setEditMode(false);
       fetchProfile(); // Refresh data
     } catch (error) {
       toast.error("Failed to update profile");
+      alert("❌ Failed to update profile: " + error.message);
       console.error(error);
     }
   };

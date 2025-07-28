@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+// import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,15 +7,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "@/api/axios";
-import LocationPickerMap from "@/components/LocationPickerMap";
-import MapSearch from "@/components/MapSearch";
+// import LocationPickerMap from "@/components/LocationPickerMap";
+// import MapSearch from "@/components/MapSearch";
 import { uploadToCloudinary } from "@/api/uploadToCloudinary";
+import { getUserProfile } from "@/api/axios";
 
 export default function RestaurantDashboard() {
   const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedImageNames, setSelectedImageNames] = useState([]);
-
 
   const [formData, setFormData] = useState({
     name: "",
@@ -30,6 +30,49 @@ export default function RestaurantDashboard() {
     address: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
+
+  const fetchProfile = async () => {
+    try {
+      const res = await getUserProfile();
+
+    setFormData(prev => ({
+      ...prev,
+      address: res.data.address?.street || "",
+      location: { 
+        coordinates: [
+          res.data.address?.longitude || "",
+          res.data.address?.latitude || ""
+        ]
+      },
+    }));
+    // formData.address = res.data.address?.street || "";
+    // formData.location.coordinates[0] = res.data.address?.latitude || "";
+    // formData.location.coordinates[1] = res.data.address?.longitude || "";
+
+      console.log("Profile fetched successfully:", res.data);
+      // console.log("Form data updated with profile address:", formData);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Updated formData:", formData);
+  }, [formData]); // Runs whenever formData changes
+
+  useEffect(() => {
+    setLoading(true);
+    fetchProfile()
+    .catch(error => {
+      toast.error("Failed to load profile");
+      console.error(error);
+    });
+  }, []);
+
   const donateFood = (data) => {
     return API.post("/foods/donate", data);
   };
@@ -43,7 +86,9 @@ export default function RestaurantDashboard() {
     } else if (name === "lng" || name === "lat") {
       const coordIndex = name === "lng" ? 0 : 1;
       const coords = [...formData.location.coordinates];
-      coords[coordIndex] = Number(value);
+      const numValue = Number(value);
+      if (isNaN(numValue)) return;
+      coords[coordIndex] = numValue;
       setFormData((prev) => ({
         ...prev,
         location: { ...prev.location, coordinates: coords },
@@ -63,12 +108,21 @@ export default function RestaurantDashboard() {
     setSelectedImages(prev => [...prev, ...newPreviews]);
   
     try {
-      const newUrls = await Promise.all(files.map(uploadToCloudinary));
-      // Append new image URLs to formData.images
-      setFormData(prev => ({
-        ...prev,
-        images: [...(prev.images || []), ...newUrls],
-      }));
+      const uploadResults = await Promise.allSettled(files.map(uploadToCloudinary));
+      const successfulUploads = uploadResults
+        .filter(result => result.status === 'fulfilled')
+        .map(result => result.value);
+      
+      if (successfulUploads.length > 0) {
+        setFormData(prev => ({
+          ...prev,
+          images: [...(prev.images || []), ...successfulUploads],
+        }));
+      }
+
+      if (successfulUploads.length !== files.length) {
+        toast.warning(`Uploaded ${successfulUploads.length} of ${files.length} images`);
+      }
     } catch (err) {
       toast.error("Failed to upload image(s)");
       console.error("Upload error:", err);
@@ -77,6 +131,7 @@ export default function RestaurantDashboard() {
   
   //remove 
   const removeImage = (index) => {
+    URL.revokeObjectURL(selectedImages[index]);
     const updatedPreviews = [...selectedImages];
     const updatedNames = [...selectedImageNames];
     const updatedCloudUrls = [...formData.images];
@@ -91,9 +146,10 @@ export default function RestaurantDashboard() {
   };
   
   
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     if (
       !formData.name ||
@@ -106,7 +162,15 @@ export default function RestaurantDashboard() {
       return;
     }
 
+    if (formData.expiryDate && formData.expiryDate < formData.preparationDate) {
+      toast.error("Expiry date must be after preparation date");
+      alert("❌ Expiry date must be after preparation date");
+      return;
+    }
+
     try {
+      console.log("formData while submitting: ", formData);
+
       await donateFood({
         name: formData.name,
         description: formData.description,
@@ -127,6 +191,10 @@ export default function RestaurantDashboard() {
       navigate("/ngoDashboard");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to donate food");
+      alert("❌ Failed to post food donation");
+      console.error("Donation error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -134,16 +202,6 @@ export default function RestaurantDashboard() {
     
     <div className="bg-[url('/../../public/background.png')] min-h-screen bg-gradient-to-b from-orange-50 to-amber-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        {/* Header Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-black sm:text-4xl mb-3">
-            Share Your Blessings
-          </h1>
-          <p className="text-lg text-gray-700 max-w-xl mx-auto">
-            Your food donation can make someone's day. Fill out the details below to get started.
-          </p>
-        </div>
-
         {/* Donation Form Card */}
         <Card className="overflow-hidden shadow-xl">
           {/* Form Header with Image */}
@@ -153,7 +211,13 @@ export default function RestaurantDashboard() {
               alt="Food donation" 
               className="w-full h-full object-cover opacity-90"
             />
-            <h2 className="absolute bottom-6 left-6 text-3xl font-bold text-white">
+            <h1 className="absolute top-6 left-6 text-3xl font-extrabold text-black sm:text-4xl mb-3">
+              Share Your Blessings
+            </h1>
+            <p className="absolute top-20 left-6 text-lg text-orange-100 max-w-xl mx-auto">
+              Your food donation can make someone's day. Fill out the details below to get started.
+            </p>
+            <h2 className="absolute bottom-4 left-6 text-3xl font-bold text-white">
               Donate Food
             </h2>
           </div>
@@ -196,7 +260,7 @@ export default function RestaurantDashboard() {
                     <Input
                       type="number"
                       min={1}
-                      name="quantiy"
+                      name="quantity"
                       placeholder="How many servings"
                       value={formData.quantity}
                       onChange={handleChange}
@@ -235,27 +299,58 @@ export default function RestaurantDashboard() {
                   Food Images
                 </h3>
 
-                <div className="flex items-center justify-center w-full mb-4">
-                  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-orange-50 transition-colors">
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg className="w-8 h-8 mb-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <div className="mb-4">
+                  
+                  {/* Combined Upload Area */}
+                  <label 
+                    className="flex items-center justify-between p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors cursor-pointer"
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.classList.add('border-orange-500', 'bg-orange-100');
+                    }}
+                    onDragLeave={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.classList.remove('border-orange-500', 'bg-orange-100');
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.classList.remove('border-orange-500', 'bg-orange-100');
+                      if (e.dataTransfer.files.length > 0) {
+                        handleImagesChange({ target: { files: e.dataTransfer.files } });
+                      }
+                    }}
+                  >
+                    {/* Left side - Upload Info */}
+                    <div className="flex items-center">
+                      <svg className="w-5 h-5 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                       </svg>
-                      <p className="mb-2 text-sm text-gray-500">
-                        <span className="font-semibold">Click to upload</span> or drag and drop
-                      </p>
-                      <p className="text-xs text-gray-500">PNG, JPG (MAX. 5MB each)</p>
+                      <span className="text-sm text-gray-700">
+                        {selectedImages.length > 0 
+                          ? `${selectedImages.length} file(s) selected`
+                          : "Drag & drop or click to upload"}
+                      </span>
                     </div>
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      onChange={handleImagesChange}
-                      className="hidden"
-                    />
+                    
+                    {/* Right side - Browse Button */}
+                    <div className="px-3 py-1 text-sm bg-orange-100 text-orange-700 rounded-md hover:bg-orange-200 transition-colors">
+                      Browse
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleImagesChange}
+                        className="sr-only"
+                      />
+                    </div>
                   </label>
+                  
+                  {/* Helper Text */}
+                  <p className="mt-1 text-xs text-gray-500">
+                    PNG, JPG (MAX. 5MB each)
+                  </p>
                 </div>
+                      
 
                 {/* Preview Thumbnails */}
                 {selectedImages.length > 0 && (
@@ -316,7 +411,7 @@ export default function RestaurantDashboard() {
               </div>
 
               {/* Location */}
-              <div>
+              {/* <div>
                 <h3 className="text-lg font-semibold text-orange-700 border-b pb-2 mb-4">
                   Pickup Location
                 </h3>
@@ -347,18 +442,63 @@ export default function RestaurantDashboard() {
                     Selected coordinates: {formData.location.coordinates[1]}, {formData.location.coordinates[0]}
                   </p>
                 </div>
-              </div>
+              </div> */}
 
               {/* Submit Button */}
               <div className="pt-4">
                 <Button
                   type="submit"
-                  className="w-full py-3 px-4 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-lg shadow-md transition-all duration-300"
+                  disabled={isSubmitting}
+                  className={`w-full py-3 px-4 text-white font-bold rounded-lg shadow-md transition-all duration-300
+                    ${isSubmitting 
+                      ? 'bg-orange-400 transform scale-95' 
+                      : 'bg-orange-500 hover:bg-orange-600 hover:shadow-lg'}
+                    relative overflow-hidden`}
+                  onClick={(e) => {
+                    if (!isSubmitting) {
+                      // Ripple effect
+                      const button = e.currentTarget;
+                      const ripple = document.createElement('span');
+                      ripple.className = 'absolute bg-white opacity-30 rounded-full animate-ripple';
+                      
+                      const rect = button.getBoundingClientRect();
+                      const size = Math.max(rect.width, rect.height);
+                      ripple.style.width = ripple.style.height = `${size}px`;
+                      ripple.style.left = `${e.clientX - rect.left - size/2}px`;
+                      ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+                      
+                      button.appendChild(ripple);
+                      setTimeout(() => ripple.remove(), 600);
+                    }
+                  }}
                 >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                  </svg>
-                  Submit Donation
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5 mr-2 transition-transform group-hover:translate-y-[-2px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                      </svg>
+                      Submit Donation
+                      <style jsx>{`
+                        @keyframes ripple {
+                          to {
+                            transform: scale(4);
+                            opacity: 0;
+                          }
+                        }
+                        .animate-ripple {
+                          animation: ripple 600ms linear;
+                        }
+                      `}</style>
+                    </>
+                  )}
                 </Button>
               </div>
             </form>
