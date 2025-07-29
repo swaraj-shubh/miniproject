@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { login, register } from "@/api/axios";
 import { getUserProfile } from "@/api/axios";
 import { Mail, Lock, User, Users } from 'lucide-react';
+import LocationPickerMap from "@/components/LocationPickerMap";
 
 export default function Auth() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -318,37 +319,29 @@ export default function Auth() {
                         }
                         required
                       />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-amber-900 mb-1">Latitude</label>
-                      <Input
-                        type="number"
-                        placeholder="23.3441"
-                        value={signupData.address?.latitude || ''}
-                        onChange={(e) =>
-                          setSignupData({
-                            ...signupData,
-                            address: { ...signupData.address, latitude: parseFloat(e.target.value) }
-                          })
-                        }
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-amber-900 mb-1">Longitude</label>
-                      <Input
-                        type="number"
-                        placeholder="85.3096"
-                        value={signupData.address?.longitude || ''}
-                        onChange={(e) =>
-                          setSignupData({
-                            ...signupData,
-                            address: { ...signupData.address, longitude: parseFloat(e.target.value) }
-                          })
-                        }
-                        required
-                      />
-                    </div>
+                    </div>   
+                  </div>
+
+                  {/* Location coordinates */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-orange-700 border-b pb-2 mb-4 mt-4">
+                      Choose Your Location
+                    </h3>
+                    <LocationPickerMap
+                      onLocationSelect={([lng, lat]) =>
+                        setSignupData({
+                          ...signupData,
+                          address: {
+                            ...signupData.address,
+                            latitude: lat.toString(),
+                            longitude: lng.toString()
+                          }
+                        })
+                      }
+                    />
+                    <p className="mt-2 text-sm text-gray-500">
+                      Selected coordinates: {signupData.address?.latitude}, {signupData.address?.longitude}
+                    </p>
                   </div>
                 </div>
               {/* </div> */}

@@ -10,6 +10,8 @@ import {
     TabsContent,
 } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
+import { Map } from "../components/Map";
+import LocationPickerMap from "@/components/LocationPickerMap";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -210,10 +212,6 @@ const Profile = () => {
                   <p className="text-lg">{profileData.address?.state || "—"}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Zip Code</p>
-                  <p className="text-lg">{profileData.address?.zipCode || "—"}</p>
-                </div>
-                <div>
                   <p className="text-sm font-medium text-gray-500">Country</p>
                   <p className="text-lg">{profileData.address?.country || "—"}</p>
                 </div>
@@ -222,9 +220,24 @@ const Profile = () => {
                   <p className="text-lg">{profileData.address?.latitude || "—"}</p>
                 </div>
                 <div>
+                  <p className="text-sm font-medium text-gray-500">Zip Code</p>
+                  <p className="text-lg">{profileData.address?.zipCode || "—"}</p>
+                </div>
+                <div>
                   <p className="text-sm font-medium text-gray-500">Longitude</p>
                   <p className="text-lg">{profileData.address?.longitude || "—"}</p>
                 </div>
+              </div>
+              <div className="mt-3">
+                <h3 className="text-lg font-semibold text-orange-700 border-b pb-2 mb-4 mt-4">
+                  Your Location
+                </h3>
+                <Map 
+                  lat={profileData.address?.latitude || 12.907277828124872} 
+                  lng={profileData.address?.longitude || 77.56742477416994} 
+                  name={profileData.address?.street || "—"}
+                  className="h-32 rounded-lg border border-gray-200"
+                />
               </div>
 
             </CardContent>
@@ -327,29 +340,60 @@ const Profile = () => {
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
               </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">Latitude</label>
-                <input
-                  type="number"
-                  step="any"
-                  value={formData.address?.latitude || ""}
-                  onChange={(e) =>
-                    setFormData({ ...formData, address: { ...formData.address, latitude: parseFloat(e.target.value) } })
-                  }
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">Longitude</label>
-                <input
-                  type="number"
-                  step="any"
-                  value={formData.address?.longitude || ""}
-                  onChange={(e) =>
-                    setFormData({ ...formData, address: { ...formData.address, longitude: parseFloat(e.target.value) } })
-                  }
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
+              {/* Address Map */}
+             <div className="md:col-span-2 space-y-2">
+                <div className="h-[300px] rounded-lg overflow-hidden border border-gray-200">
+                  <LocationPickerMap
+                    onLocationSelect={([lng, lat]) =>
+                      setFormData(prev => ({
+                        ...prev,
+                        address: {
+                          ...prev.address,
+                          latitude: lat,
+                          longitude: lng,
+                          // Optional: clear any existing address details when changing location
+                          street: prev.address.street || '',
+                          city: prev.address.city || '',
+                        }
+                      }))
+                    }
+                  />
+                </div>
+                
+                <div className="flex items-center justify-between text-sm">
+                  <p className="text-gray-500">
+                    {formData.address?.latitude && formData.address?.longitude ? (
+                      <>
+                        Coordinates: 
+                        <span className="font-mono ml-1">
+                          {Number(formData.address.latitude).toFixed(6)}, {Number(formData.address.longitude).toFixed(6)}
+                        </span>
+                      </>
+                    ) : (
+                      "Click on the map or search to select a location"
+                    )}
+                  </p>
+                  
+                  {formData.address?.latitude && formData.address?.longitude && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData(prev => ({
+                        ...prev,
+                        address: {
+                          ...prev.address,
+                          latitude: null,
+                          longitude: null
+                        }
+                      }))}
+                      className="ml-3 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-150
+                        bg-white text-red-600 hover:bg-red-50 hover:text-red-700 hover:shadow-sm
+                        border border-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1
+                        active:bg-red-100 active:scale-[0.98] shadow-xs"
+                    >
+                      Clear selection
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* 🔐 Password */}

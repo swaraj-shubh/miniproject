@@ -186,12 +186,12 @@ export default function RestaurantDashboard() {
         },
         address: formData.address,
       });
-      alert("✅ Food donation posted successfully!");
+      alert("✅ Food donated successfully! Thanks for your donation.");
       toast.success("Food donation posted successfully!");
       navigate("/ngoDashboard");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to donate food");
-      alert("❌ Failed to post food donation");
+      alert("❌ Failed to post food donation: ", error);
       console.error("Donation error:", error);
     } finally {
       setIsSubmitting(false);
