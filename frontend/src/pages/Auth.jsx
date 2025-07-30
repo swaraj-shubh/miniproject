@@ -49,7 +49,7 @@ export default function Auth() {
 
       // reload and navigate
       alert(`✅ Logged in as: ${loginData.email}`);
-      navigate("/profile"); 
+      // navigate("/profile"); 
       setTimeout(() => window.location.reload(), 100); 
     } catch (err) {
       console.log(err);
@@ -63,7 +63,7 @@ export default function Auth() {
       const res = await register(signupData);
       localStorage.setItem("token", res.data.token);
       alert(`✅ Signed up as: ${signupData.email}`);
-      navigate("/profile");
+      // navigate("/profile");
       setTimeout(() => window.location.reload(), 100);
     } catch (err) {
       console.log(err);
