@@ -237,6 +237,7 @@ const Profile = () => {
                   lng={profileData.address?.longitude || 77.56742477416994} 
                   name={profileData.address?.street || "—"}
                   className="h-32 rounded-lg border border-gray-200"
+                  zoom={12}
                 />
               </div>
 
