@@ -32,8 +32,8 @@ export default function Home() {
   }
     return (
       <>
-            
-            <section className="text-center py-20 bg-[url('/../../public/food-donation-services-988981.webp')] rounded-lg bg-cover bg-center">
+
+            <section className="text-center py-20 bg-[url('/../../food-donation-services-988981.webp')] rounded-lg bg-cover bg-center">
 
               <div className="text-center mb-20">
                 <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-800 via-orange-500 to-orange-400 animate-fade-in-up">

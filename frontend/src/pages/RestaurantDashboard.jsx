@@ -200,14 +200,14 @@ export default function RestaurantDashboard() {
 
   return (
     
-    <div className="bg-[url('/../../public/background.png')] min-h-screen bg-gradient-to-b from-orange-50 to-amber-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[url('/../../background.png')] min-h-screen bg-gradient-to-b from-orange-50 to-amber-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         {/* Donation Form Card */}
         <Card className="overflow-hidden shadow-xl">
           {/* Form Header with Image */}
           <div className="relative h-48">
             <img 
-              src="./../../public/donation.jpg" 
+              src="./../../donation.jpg" 
               alt="Food donation" 
               className="w-full h-full object-cover opacity-90"
             />

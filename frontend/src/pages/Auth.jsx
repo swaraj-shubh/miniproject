@@ -78,7 +78,7 @@ export default function Auth() {
         {/* Food-themed header image */}
         <div className="relative h-32 bg-orange-500 overflow-hidden">
           <img 
-            src="./../../public/donation.jpg" 
+            src="./../../donation.jpg" 
             alt="Food sharing concept"
             className="w-full h-full object-cover opacity-90"
           />

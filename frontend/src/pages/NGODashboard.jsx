@@ -58,7 +58,7 @@ const NGODashboard = () => {
             <p className="text-lg text-amber-800">Reducing food waste, one donation at a time</p>
             <div className="mt-4">
               <img 
-                src="./../../public/foods2.jpg" 
+                src="./../../foods2.jpg" 
                 alt="People sharing food" 
                 className="w-full h-35 object-cover rounded-lg shadow-lg"
               />
@@ -81,7 +81,7 @@ const NGODashboard = () => {
             ) : foods.length === 0 ? (
               <div className="text-center py-12 bg-white rounded-xl shadow-sm">
                 <img 
-                  src="./../../public/plate.jpg" 
+                  src="./../../plate.jpg" 
                   alt="No food available" 
                   className="mx-auto h-48 mb-4"
                 />
@@ -102,7 +102,7 @@ const NGODashboard = () => {
                     ) : (
                       <div className="w-full h-48 bg-orange-100 flex items-center justify-center">
                         <img 
-                          src="./../../public/bag.jpg" 
+                          src="./../../bag.jpg" 
                           alt="Food placeholder" 
                           className="h-32 opacity-50"
                         />

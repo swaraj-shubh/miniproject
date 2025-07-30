@@ -127,7 +127,7 @@ const Profile = () => {
         <div className="flex flex-col items-center justify-center h-[70vh] text-center">
           <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full border border-orange-100">
             <img 
-              src="./../../public/locked.jpeg" 
+              src="./../../locked.jpeg" 
               alt="Login required" 
               className="h-40 mx-auto mb-6"
             />
@@ -160,7 +160,7 @@ const Profile = () => {
               <div className="flex flex-col md:flex-row gap-8 items-center">
                 <div className="bg-orange-100 w-32 h-32 rounded-full flex items-center justify-center">
                   <img 
-                    src="./../../public/profile-pic.png" 
+                    src="./../../profile-pic.png" 
                     alt="Profile" 
                     className="h-20 w-20"
                   />
@@ -521,7 +521,7 @@ const Profile = () => {
                   ) : foods.length === 0 ? (
                     <Card className='flex flex-col items-center justify-center p-8 h-64 bg-orange-50 rounded-xl'>
                       <img 
-                        src="./../../public/bag.jpg" 
+                        src="./../../bag.jpg" 
                         alt="No donations" 
                         className="h-24 mb-4"
                       />
@@ -551,7 +551,7 @@ const Profile = () => {
                             ) : (
                               <div className="w-full h-full bg-orange-100 flex items-center justify-center">
                                 <img 
-                                  src="./../../public/bag.jpg" 
+                                  src="./../../bag.jpg" 
                                   alt="Food placeholder" 
                                   className="h-24 opacity-50"
                                 />
@@ -604,7 +604,7 @@ const Profile = () => {
                   ) : receivedFoods.length === 0 ? (
                     <Card className='flex flex-col items-center justify-center p-8 h-64 bg-orange-50 rounded-xl'>
                       <img 
-                        src="./../../public/empty-plate.jpg" 
+                        src="./../../empty-plate.jpg" 
                         alt="No received items" 
                         className="h-24 mb-4"
                       />
@@ -634,7 +634,7 @@ const Profile = () => {
                             ) : (
                               <div className="w-full h-full bg-orange-100 flex items-center justify-center">
                                 <img 
-                                  src="./../../public/bag.jpg" 
+                                  src="./../../bag.jpg" 
                                   alt="Food placeholder" 
                                   className="h-24 opacity-50"
                                 />
