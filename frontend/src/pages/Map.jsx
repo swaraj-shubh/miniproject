@@ -25,8 +25,8 @@ const MAP = () => {
       }
     };
 
-    const lat= profileData?.address?.latitude;
-    const lng= profileData?.address?.longitude;
+    const lat= profileData?.address?.latitude || 12.907416208459988;
+    const lng= profileData?.address?.longitude || 77.56728144479759;
     console.log("Latitude:", lat, "Longitude:", lng);
 
   const fetchFoods = async () => {
