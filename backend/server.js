@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 //app.use(cors());
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176', 'http://localhost:5177', 'http://localhost:5178', 'http://localhost:5179', 'http://localhost:5180'], // Replace with your frontend URL
+  origin: ['https://secondserve-swaraj.vercel.app/','http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176', 'http://localhost:5177', 'http://localhost:5178', 'http://localhost:5179', 'http://localhost:5180'], // Replace with your frontend URL
   credentials: true, // Allow cookies to be sent with requests
 }));
 app.use(express.json());
