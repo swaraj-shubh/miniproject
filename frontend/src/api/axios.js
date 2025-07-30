@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const API = axios.create({
-  baseURL: import.meta.env.URL || "https://secondserve.onrender.com/api" || "http://localhost:8000/api",
+  baseURL: import.meta.env.URL || "https://secondserve.onrender.com/api" ,
   withCredentials: true, // if you're using cookies for auth
 });
 
