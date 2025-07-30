@@ -49,7 +49,7 @@ function Navbar() {
 
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild>
-                                <Link to="/map" className={getLinkClass("/map")}>Show Map</Link>
+                                <Link to="/map" className={getLinkClass("/map")}>Map</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
 
