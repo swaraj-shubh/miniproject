@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const API = axios.create({
-  baseURL: import.meta.env.URL || "https://secondserve.onrender.com/api" || "http://localhost:8000/api",
+  baseURL: import.meta.env.URL ||  "http://localhost:8000/api",
   withCredentials: true, // if you're using cookies for auth
 });
 
@@ -29,4 +29,8 @@ export const getReceivedFoods = () => API.get("/foods/received");
 export const getFoodById = (id) => API.get(`/foods/${id}`);
 export const reserveFood = (id) => API.put(`/foods/${id}/reserve`);
 export const getAvailableFoods = () => API.get("/foods/donate")
+
+// ======= Admin APIs =======
+export const fetchAllUsers = () => API.get("/users/all");               // GET all users (admin only)
+export const deleteUserById = (userId) => API.delete(`/users/${userId}`); // DELETE user (admin only)
 export const admin = () => API.get("/foods/admin")
