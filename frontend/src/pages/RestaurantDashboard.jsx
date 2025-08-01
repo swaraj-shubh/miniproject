@@ -198,6 +198,46 @@ export default function RestaurantDashboard() {
     }
   };
 
+  if (localStorage.getItem("role") === "receiver") {
+    return (
+      <div className="flex items-center justify-center bg-gray-50">
+        <div className="text-center p-8 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+          <div className="p-6">
+            <div className="flex justify-center mb-6">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-16 w-16 text-red-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+            </div>
+             <h1 className="text-2xl font-bold text-gray-800 mb-3">Donation Access Limited</h1>
+          <p className="text-gray-600 mb-4">
+            Only <span className="font-semibold">registered restaurants</span> and <span className="font-semibold">administrators</span> can donate food through our platform.
+          </p>
+          <p className="text-gray-500 text-sm mb-6">
+            If you represent a restaurant and would like to contribute, please contact our support team.
+          </p>
+            <button
+              onClick={() => window.location.href = '/'}
+              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            >
+              Return to Home
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     
     <div className="bg-[url('/../../background.png')] min-h-screen bg-gradient-to-b from-orange-50 to-amber-50 py-12 px-4 sm:px-6 lg:px-8">
