@@ -12,6 +12,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Map } from "../components/Map";
 import LocationPickerMap from "@/components/LocationPickerMap";
+import { getAllUsersForDonor } from "@/api/axios";
+
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -37,12 +39,23 @@ const Profile = () => {
     },
     password: "",
   });
-
-
+  const [users, setUsers] = useState([]);
+  const loadUsers = async () => {
+    try {
+      const res = await getAllUsersForDonor();
+      setUsers(res.data);
+      console.log("Fetched users:", res.data);
+    } catch (error) {
+      console.error('Error fetching users:', error.response?.data?.message || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
+    loadUsers();
   }, [] );
 
   const fetchProfile = async () => {
@@ -93,6 +106,7 @@ const Profile = () => {
     try {
       const res = await getDonatedFoods();
       setFoods(res.data);
+      console.log("Donated Foods:", res.data);
     } catch (error) {
       toast.error("Failed to fetch donated food items");
       console.error(error);
@@ -116,7 +130,7 @@ const Profile = () => {
 
 
   useEffect(() => {
-    fetchFoods(),fetchReceivedFoods(),fetchProfile();
+    fetchFoods(),fetchReceivedFoods(),fetchProfile(),loadUsers();
   }, []);
 
   return (
@@ -499,18 +513,22 @@ const Profile = () => {
             <CardContent className="p-6">
               <Tabs defaultValue="donated" className="w-full">
                 <TabsList className="mb-6 grid grid-cols-2 gap-2 bg-orange-50 rounded-lg p-1">
-                  <TabsTrigger 
-                    value="donated" 
-                    className="data-[state=active]:bg-orange-500 data-[state=active]:text-white transition-all"
-                  >
-                    Donated
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="recieved" 
-                    className="data-[state=active]:bg-orange-500 data-[state=active]:text-white transition-all"
-                  >
-                    Received
-                  </TabsTrigger>
+                  {(localStorage.getItem("role") === "donor" || localStorage.getItem("role") === "admin") && (
+                    <TabsTrigger
+                      value="donated"
+                      className="data-[state=active]:bg-orange-500 data-[state=active]:text-white transition-all"
+                    >
+                      Donated
+                    </TabsTrigger>
+                  )}
+                  {(localStorage.getItem("role") === "receiver" || localStorage.getItem("role") === "admin") && (
+                    <TabsTrigger
+                      value="received"
+                      className="data-[state=active]:bg-orange-500 data-[state=active]:text-white transition-all"
+                    >
+                      Received
+                    </TabsTrigger>
+                  )} 
                 </TabsList>
 
                 <TabsContent value="donated">
@@ -538,65 +556,98 @@ const Profile = () => {
                     </Card>
                   ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {foods.map((food) => (
-                        <Card key={food._id} className="hover:shadow-lg transition-shadow duration-300">
-                          <CardContent className="p-4 space-y-4">
-                          <div className="relative h-48 rounded-xl overflow-hidden">
-                            {food.images?.[0] ? (
-                              <img
-                                src={food.images[0]}
-                                alt={food.name}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-orange-100 flex items-center justify-center">
-                                <img 
-                                  src="./../../bag.jpg" 
-                                  alt="Food placeholder" 
-                                  className="h-24 opacity-50"
-                                />
-                              </div>
-                            )}
-                          </div>
+                      {foods.map((food) => {
+                        const receiverUser = users.find(user => {
+                            console.log(`Comparing ${user._id} with ${food.receiver}`);
+                            return user._id === food.receiver;
+                          });
+                          
+                          console.log("Found receiver user:", receiverUser);
+                          
+                          return (
+                            <Card key={food._id} className="hover:shadow-lg transition-shadow duration-300">
+                              <CardContent className="p-4 space-y-4">
+                                <div className="relative h-48 rounded-xl overflow-hidden">
+                                  {food.images?.[0] ? (
+                                    <img
+                                      src={food.images[0]}
+                                      alt={food.name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full bg-orange-100 flex items-center justify-center">
+                                      <img 
+                                        src="./../../bag.jpg" 
+                                        alt="Food placeholder" 
+                                        className="h-24 opacity-50"
+                                      />
+                                    </div>
+                                  )}
+                                </div>
 
-                            <h3 className="text-xl font-semibold">{food.name}</h3>
-                            <p className="text-gray-600 line-clamp-2">{food.description}</p>
-                            
-                            <div className="grid grid-cols-2 gap-2 text-sm">
-                              <div className="flex items-center">
-                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                {new Date(food.expiryDate).toLocaleDateString()}
-                              </div>
-                              <div className="flex items-center">
-                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                </svg>
-                                {food.address.split(',')[0]}
-                              </div>
-                              <div className="flex items-center">
-                                <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                </svg>
-                                {food.quantity} servings
-                              </div>
-                              <div className="flex items-center">
-                                <span className={`px-2 py-1 rounded-full text-xs ${
-                                  food.isFree ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
-                                }`}>
-                                  {food.isFree ? "FREE" : `₹${food.price}`}
-                                </span>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
+                                <h3 className="text-xl font-semibold">{food.name}</h3>
+                                <p className="text-gray-600 line-clamp-2">{food.description}</p>
+                                
+                                {/* Status Badge and Receiver Info */}
+                                <div className="flex justify-between items-center">
+                                  <span className={`px-2 py-1 rounded-full text-xs ${
+                                    food.status === 'available' ? 'bg-green-100 text-green-800' :
+                                    food.status === 'reserved' ? 'bg-yellow-100 text-yellow-800' :
+                                    'bg-purple-100 text-purple-800'
+                                  }`}>
+                                    {food.status.toUpperCase()}
+                                  </span>
+                                  {receiverUser && (
+                                    <div className="text-right text-sm text-gray-600 space-y-1 bg-gray-50 rounded-md p-2 border border-gray-200 shadow-sm">
+                                      <div className="font-semibold text-gray-700">Receiver:</div>
+                                      <div className="text-gray-800">{receiverUser.name}</div>
+                                      {receiverUser.address && (
+                                        <div className="text-gray-500 text-xs">
+                                          {receiverUser.address.street && <span>{receiverUser.address.street}, </span>}
+                                          {receiverUser.address.city && <span>{receiverUser.address.city}</span>}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+
+                                </div>
+                                
+                                <div className="grid grid-cols-2 gap-2 text-sm">
+                                  <div className="flex items-center">
+                                    <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    {new Date(food.expiryDate).toLocaleDateString()}
+                                  </div>
+                                  <div className="flex items-center">
+                                    <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    </svg>
+                                    {food.address.split(',')[0]}
+                                  </div>
+                                  <div className="flex items-center">
+                                    <svg className="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                    </svg>
+                                    {food.quantity} servings
+                                  </div>
+                                  <div className="flex items-center">
+                                    <span className={`px-2 py-1 rounded-full text-xs ${
+                                      food.isFree ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                                    }`}>
+                                      {food.isFree ? "FREE" : `₹${food.price}`}
+                                    </span>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          );
+                        })}
                     </div>
                   )}
                 </TabsContent>
 
-                <TabsContent value="recieved">
+                <TabsContent value="received">
                   {loading ? (
                     <div className="flex justify-center items-center h-64">
                       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>

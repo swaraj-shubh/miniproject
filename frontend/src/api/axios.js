@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const API = axios.create({
-  baseURL: import.meta.env.URL || "https://secondserve.onrender.com/api",// ||  "http://localhost:8000/api",
+  baseURL: import.meta.env.URL || "https://secondserve.onrender.com/api" ||  "http://localhost:8000/api",
   withCredentials: true, // if you're using cookies for auth
 });
 
@@ -22,6 +22,7 @@ export const register = (data) => API.post("/auth/register", data);
 // ======= User APIs =======
 export const getUserProfile = () => API.get("/users/profile");
 export const updateUserProfile = (data) => API.put("/users/profile", data);
+export const getAllUsersForDonor = () => API.get("/users/allHehe"); 
 
 // ======= Food APIs =======
 export const getDonatedFoods = () => API.get("/foods/donated");
