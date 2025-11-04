@@ -1,0 +1,2 @@
+- 🚀 **Deployment:** [secondserve-swaraj.vercel.app](https://secondserve-swaraj.vercel.app)
+- 🚀 **APIs:** [secondserve.onrender.com](https://secondserve.onrender.com)
