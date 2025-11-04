@@ -17,6 +17,7 @@ const app = express();
 //app.use(cors());
 app.use(cors({
   origin: ['https://secondserve-swaraj.vercel.app',
+    'https://secondserve.shubhh.xyz',
     'https://miniproject-swaraj-shubhs-projects.vercel.app/',
     'https://miniproject-git-main-swaraj-shubhs-projects.vercel.app/',
     'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176', 'http://localhost:5177', 'http://localhost:5178', 'http://localhost:5179', 'http://localhost:5180'], // Replace with your frontend URL
