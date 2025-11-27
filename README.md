@@ -4,7 +4,7 @@ A full-stack food donation platform that connects food donors with receivers to 
 
 ![SecondServe Banner](/frontend/public/donation.jpg)
 
-- 🚀 **Deployment:** [secondserve-swaraj.vercel.app](https://secondserve-swaraj.vercel.app)
+- 🚀 **Deployment:** [secondserve.shubhh.xyz](https://secondserve.shubhh.xyz/)
 - 🚀 **APIs:** [secondserve.onrender.com](https://secondserve.onrender.com)
 
 ## 🌟 Features
