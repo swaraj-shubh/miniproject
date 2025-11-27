@@ -52,8 +52,8 @@ A full-stack food donation platform that connects food donors with receivers to 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/your-username/secondserve.git
-cd secondserve
+git clone https://github.com/swaraj-shubh/miniproject.git
+cd miniproject
 ```
 
 2. **Backend Setup**
@@ -160,10 +160,6 @@ We welcome contributions! Please feel free to submit pull requests or open issue
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - OpenStreetMap for mapping services
@@ -176,7 +172,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For questions or support, please contact:
 - Email: info@secondserve.com
 - Website: https://secondserve.shubhh.xyz/
-- GitHub: [SecondServe Repository](https://github.com/your-username/secondserve)
+- GitHub: [SecondServe Repository](https://github.com/swaraj-shubh/miniproject.git)
 
 ---
 
