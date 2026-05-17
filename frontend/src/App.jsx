@@ -17,7 +17,7 @@ function App() {
         <header className="px-2 ">
           <Navbar />
         </header>
-        <main className='flex-grow container mx-auto px-4 py-8'>
+        <main className='flex-grow container mx-auto bg-gradient-to-b from-[#1a1f12] to-[#0c0f08]'>
           <Routes className='mt-16'>
             <Route path='/' element={<Home />} />
             <Route path='/ngoDashboard' element={<NGODashboard />} />
@@ -29,7 +29,7 @@ function App() {
             <Route path='*' element={<div className='text-center text-gray-600'>404</div>} />
           </Routes>
         </main>
-        <footer className="bg-gray-800 text-white py-6">
+        <footer className="bg-gray-800 text-white">
           <Footer />
         </footer>
       </div>

@@ -70,7 +70,7 @@ export default function ProblemSection() {
       <div
         ref={sectionRef}
         id="problem"
-        style={{ height: "400vh", position: "relative", scrollMarginTop: "88px" }}
+        style={{ height: "200vh", position: "relative", scrollMarginTop: "88px" }}
       >
         <motion.div
           style={{

@@ -138,7 +138,7 @@ const Profile = () => {
 
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50 p-6">
       {!isLoggedIn ? (
-        <div className="flex flex-col items-center justify-center h-[70vh] text-center">
+        <div className="flex mt-20 flex-col items-center justify-center h-[70vh] text-center">
           <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full border border-orange-100">
             <img 
               src="./../../locked.jpeg" 
@@ -161,7 +161,7 @@ const Profile = () => {
         </div>
       ) : (
     <>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mt-20 mx-auto">
 
         {/* Profile Section */}
         {!editMode &&(<div className="mb-10">

@@ -36,7 +36,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       className="relative w-full overflow-hidden"
-      style={{ scrollMarginTop: "5rem", height: "400vh" }}
+      style={{ scrollMarginTop: "5rem", height: "300vh" }}
     >
       {/* NO background gradients or colored overlays — transparent to show video frames */}
 

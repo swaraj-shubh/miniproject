@@ -10,7 +10,8 @@ import Footer from "./Footer";
 
 const Home = () => {
   return (
-    <Background>
+    <>
+      <Background>
       {/* <Navbar /> */}
 
       <HeroSection />
@@ -22,14 +23,17 @@ const Home = () => {
       {/* <ImpactSection /> */}
 
       <FinalCTA />
-      {/* <Footer /> */}
-      <img
+      <Footer />
+     
+    </Background>
+     <img
         src="/chat.png"
         alt="Chat"
         className="fixed -bottom-3 right-3 z-50 w-12 h-12 md:w-26 md:h-26 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-amber-500/30 active:scale-95 active:duration-100"
         onClick={() => console.log("Icon clicked")}
       />
-    </Background>
+    </>
+
   );
 };
 

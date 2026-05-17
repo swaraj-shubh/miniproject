@@ -185,10 +185,10 @@ export default function ImpactCTA() {
         ref={sectionRef}
         id="impact"
         style={{
-          height: "200vh",        // 100vh visible + 100vh scroll lock budget
+          height: "300vh",        // 100vh visible + 100vh scroll lock budget
           position: "relative",
           scrollMarginTop: "88px",
-          margin: "24rem 0",
+          // margin: "2rem",
         }}
       >
         {/* Ambient glow */}
@@ -342,7 +342,7 @@ export default function ImpactCTA() {
             
 
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </motion.div>
         {/* End sticky */}
 

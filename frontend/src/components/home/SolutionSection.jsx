@@ -94,7 +94,7 @@ export default function SolutionSection() {
         .btn-explore:hover { background: #f5ead6; transform: translateY(-3px); box-shadow: 0 16px 40px rgba(212,165,90,0.28); }
       `}</style>
 
-      <div ref={sectionRef} id="solution" style={{ height: "300vh", position: "relative", scrollMarginTop: "88px" }}>
+      <div ref={sectionRef} id="solution" style={{ height: "200vh", position: "relative", scrollMarginTop: "88px" }}>
         <motion.div
           style={{
             position: "sticky", top: "88px", height: "calc(100vh - 88px)",
