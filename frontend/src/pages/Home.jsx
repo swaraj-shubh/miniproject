@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import Background from "../components/Background";
 
 import HeroSection from "@/components/home/HeroSection";

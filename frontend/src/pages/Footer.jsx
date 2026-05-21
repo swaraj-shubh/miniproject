@@ -90,7 +90,7 @@ export default function Footer() {
         {/* Optional extra line: website link */}
         <div className="mt-6 pt-4 border-t border-amber-500/10 text-center">
           <motion.a
-            href="https://www.secondserve.com"
+            href="https://www.secondserve.shubhh.xyz"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ letterSpacing: "0.1em" }}

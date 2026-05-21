@@ -62,7 +62,7 @@ export default function RestaurantDashboard() {
 
   useEffect(() => {
     console.log("Updated formData:", formData);
-  }, [formData]); // Runs whenever formData changes
+  }, [formData]);
 
   useEffect(() => {
     setLoading(true);
@@ -101,7 +101,6 @@ export default function RestaurantDashboard() {
   const handleImagesChange = async (e) => {
     const files = Array.from(e.target.files);
   
-    // Preview: Add to existing previews and names
     const newNames = files.map(file => file.name);
     const newPreviews = files.map(file => URL.createObjectURL(file));
     setSelectedImageNames(prev => [...prev, ...newNames]);
@@ -129,7 +128,6 @@ export default function RestaurantDashboard() {
     }
   };
   
-  //remove 
   const removeImage = (index) => {
     URL.revokeObjectURL(selectedImages[index]);
     const updatedPreviews = [...selectedImages];
@@ -241,10 +239,8 @@ export default function RestaurantDashboard() {
   return (
     
     <div className="bg-[url('/../../background.png')] min-h-screen bg-gradient-to-b from-orange-50 to-amber-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        {/* Donation Form Card */}
+      <div className="max-w-3xl mt-10 mx-auto">
         <Card className="overflow-hidden shadow-xl">
-          {/* Form Header with Image */}
           <div className="relative h-48">
             <img 
               src="./../../donation.jpg" 
@@ -333,15 +329,11 @@ export default function RestaurantDashboard() {
                 </div>
               </div>
 
-              {/* Food Images */}
               <div>
                 <h3 className="text-lg font-semibold text-orange-700 border-b pb-2 mb-4">
                   Food Images
                 </h3>
-
-                <div className="mb-4">
-                  
-                  {/* Combined Upload Area */}
+                <div className="mb-4">                  
                   <label 
                     className="flex items-center justify-between p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors cursor-pointer"
                     onDragOver={(e) => {
@@ -360,7 +352,6 @@ export default function RestaurantDashboard() {
                       }
                     }}
                   >
-                    {/* Left side - Upload Info */}
                     <div className="flex items-center">
                       <svg className="w-5 h-5 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -372,7 +363,6 @@ export default function RestaurantDashboard() {
                       </span>
                     </div>
                     
-                    {/* Right side - Browse Button */}
                     <div className="px-3 py-1 text-sm bg-orange-100 text-orange-700 rounded-md hover:bg-orange-200 transition-colors">
                       Browse
                       <input
@@ -385,14 +375,12 @@ export default function RestaurantDashboard() {
                     </div>
                   </label>
                   
-                  {/* Helper Text */}
                   <p className="mt-1 text-xs text-gray-500">
                     PNG, JPG (MAX. 5MB each)
                   </p>
                 </div>
                       
 
-                {/* Preview Thumbnails */}
                 {selectedImages.length > 0 && (
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {selectedImages.map((img, index) => (
@@ -416,7 +404,6 @@ export default function RestaurantDashboard() {
                 )}
               </div>
 
-              {/* Pricing */}
               <div>
                 <h3 className="text-lg font-semibold text-orange-700 border-b pb-2 mb-4">
                   Pricing
@@ -484,7 +471,6 @@ export default function RestaurantDashboard() {
                 </div>
               </div> */}
 
-              {/* Submit Button */}
               <div className="pt-4">
                 <Button
                   type="submit"
@@ -496,7 +482,6 @@ export default function RestaurantDashboard() {
                     relative overflow-hidden`}
                   onClick={(e) => {
                     if (!isSubmitting) {
-                      // Ripple effect
                       const button = e.currentTarget;
                       const ripple = document.createElement('span');
                       ripple.className = 'absolute bg-white opacity-30 rounded-full animate-ripple';
@@ -545,7 +530,6 @@ export default function RestaurantDashboard() {
           </CardContent>
         </Card>
 
-        {/* Footer Note */}
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>Your donation helps reduce food waste and feed those in need. Thank you for your generosity!</p>
         </div>

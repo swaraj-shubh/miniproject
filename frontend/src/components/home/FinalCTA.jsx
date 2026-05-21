@@ -306,8 +306,8 @@ export default function ImpactCTA() {
                 display: "flex", gap: "1rem", justifyContent: "center",
                 flexWrap: "wrap", marginBottom: "1.5rem",
               }}>
-                <a href="/donate" className="cta-btn-gold">Start Donating</a>
-                <a href="/volunteer" className="cta-btn-ghost">Join as Volunteer</a>
+                <a href="/restaurantDashboard" className="cta-btn-gold">Start Donating</a>
+                <a href="/auth" className="cta-btn-ghost">Join as Volunteer</a>
               </motion.div>
 
               <motion.div variants={ITEM}>

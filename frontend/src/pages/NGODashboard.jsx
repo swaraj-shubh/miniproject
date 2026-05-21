@@ -35,7 +35,7 @@ const NGODashboard = () => {
     try {
       await reserveFood(id);
       toast.success("✅ Food reserved successfully");
-      fetchFoods(); // Refresh the list
+      fetchFoods();
       alert("✅ Food reserved successfully");
     } catch (error) {
       toast.error("❌ Failed to reserve food");
@@ -51,7 +51,6 @@ const NGODashboard = () => {
   return (
     <div className="min-h-screen px-6 sm:px-12 lg:px-20 xl:px-32 py-8">
       <div className="max-w-7xl mt-20 mx-auto">
-        {/* Header Section – Glassmorphism style */}
         <motion.header
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -81,7 +80,6 @@ const NGODashboard = () => {
           </div>
         </motion.header>
 
-        {/* Main Content */}
         <section className="mb-16">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
             <motion.h2
@@ -217,7 +215,6 @@ const NGODashboard = () => {
           )}
         </section>
 
-        {/* Footer CTA – Glass card matching the theme */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -245,7 +242,6 @@ const NGODashboard = () => {
 
 export default NGODashboard;
 
-// KeenFoodCarousel with restyled buttons
 const KeenFoodCarousel = ({ images, foodName }) => {
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: images.length > 1,

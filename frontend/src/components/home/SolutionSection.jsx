@@ -205,7 +205,7 @@ export default function SolutionSection() {
               </p>
 
               <motion.a
-                href="#platform"
+                href="/ngoDashboard"
                 className="btn-explore"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}

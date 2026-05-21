@@ -93,7 +93,7 @@ const Profile = () => {
       toast.success("Profile updated successfully");
       alert("✅ Profile updated successfully");
       setEditMode(false);
-      fetchProfile(); // Refresh data
+      fetchProfile(); 
     } catch (error) {
       toast.error("Failed to update profile");
       alert("❌ Failed to update profile: " + error.message);
@@ -163,7 +163,6 @@ const Profile = () => {
     <>
       <div className="max-w-7xl mt-20 mx-auto">
 
-        {/* Profile Section */}
         {!editMode &&(<div className="mb-10">
           <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
             Your Profile
@@ -208,7 +207,6 @@ const Profile = () => {
 
                 </div>
               </div>
-              {/* Address Block */}
               <h2 className="text-2xl mt-8 font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
                 Your Address Info:
               </h2>
@@ -259,7 +257,6 @@ const Profile = () => {
           </Card>
         </div>)}
 
-        {/* Edit mode */}
         {editMode && (
           <form
             onSubmit={handleProfileUpdate}
@@ -299,7 +296,6 @@ const Profile = () => {
                 />
               </div>
 
-              {/* 🔽 Updated Address Section (Split Fields) */}
               <div>
                 <label className="block text-sm text-gray-600 mb-1">Street</label>
                 <input
@@ -355,7 +351,6 @@ const Profile = () => {
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
               </div>
-              {/* Address Map */}
              <div className="md:col-span-2 space-y-2">
                 <div className="h-[300px] rounded-lg overflow-hidden border border-gray-200">
                   <LocationPickerMap
@@ -366,7 +361,6 @@ const Profile = () => {
                           ...prev.address,
                           latitude: lat,
                           longitude: lng,
-                          // Optional: clear any existing address details when changing location
                           street: prev.address.street || '',
                           city: prev.address.city || '',
                         }
@@ -503,7 +497,6 @@ const Profile = () => {
         )} */}
 
 
-        {/* Donation History Section */}
         <div>
           <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
             Your Food History

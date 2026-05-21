@@ -70,7 +70,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1a1f12] to-[#0c0f08] flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen mt-15 bg-gradient-to-b from-[#1a1f12] to-[#0c0f08] flex items-center justify-center px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -79,11 +79,11 @@ export default function Auth() {
       >
         <Card className="w-full bg-black/40 backdrop-blur-md border border-amber-500/20 rounded-2xl shadow-2xl overflow-hidden">
           {/* Header image with gradient overlay */}
-          <div className="relative h-32 bg-gradient-to-r from-amber-600 to-orange-600 overflow-hidden">
+          <div className="relative h-32  overflow-hidden">
             <img 
               src="./../../donation.jpg" 
               alt="Food sharing concept"
-              className="w-full h-full object-cover mix-blend-overlay opacity-60"
+              className="w-full h-full object-cover mix-blend-overlay opacity-100"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-0 right-0 text-center">
@@ -97,13 +97,13 @@ export default function Auth() {
               <TabsList className="grid w-full grid-cols-2 bg-amber-500/10 p-1 rounded-xl mb-8">
                 <TabsTrigger 
                   value="login" 
-                  className="data-[state=active]:bg-amber-500 data-[state=active]:text-black rounded-lg py-2 text-amber-200 transition-all font-medium"
+                  className="data-[state=active]:bg-yellow-700 data-[state=active]:text-black rounded-lg py-2 text-amber-200 transition-all font-medium"
                 >
                   Login
                 </TabsTrigger>
                 <TabsTrigger 
                   value="signup" 
-                  className="data-[state=active]:bg-amber-500 data-[state=active]:text-black rounded-lg py-2 text-amber-200 transition-all font-medium"
+                  className="data-[state=active]:bg-yellow-700 data-[state=active]:text-black rounded-lg py-2 text-amber-200 transition-all font-medium"
                 >
                   Sign Up
                 </TabsTrigger>
@@ -152,7 +152,7 @@ export default function Auth() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 text-black font-semibold uppercase tracking-wider shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all duration-300"
+                    className="w-full py-2.5 rounded-full bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-semibold uppercase tracking-wider shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all duration-300"
                   >
                     Login
                   </motion.button>
@@ -351,7 +351,7 @@ export default function Auth() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 text-black font-semibold uppercase tracking-wider shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all duration-300 mt-4"
+                    className="w-full py-2.5 rounded-full bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-semibold uppercase tracking-wider shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all duration-300 mt-4"
                   >
                     Create Account
                   </motion.button>

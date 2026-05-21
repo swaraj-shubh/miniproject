@@ -12,7 +12,6 @@ const Home = () => {
     >
       <ScrollFrames />
 
-      {/* DARK OVERLAY */}
       <div
         style={{
           position: "fixed",
@@ -23,7 +22,6 @@ const Home = () => {
         }}
       />
 
-      {/* CONTENT */}
       <section
         style={{
           position: "relative",

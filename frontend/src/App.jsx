@@ -1,4 +1,4 @@
-import { BrowserRouter as Routerz_Hehe, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import React from 'react';
 import NGODashboard from './pages/NGODashboard';
@@ -12,28 +12,31 @@ import Map from './pages/Map';
 
 function App() {
   return (
-    <Routerz_Hehe className="min-h-screen bg-gray-100">
-      <div className='flex-grow container mx-auto'>{/* px..*/}
-        <header className="px-2 ">
+    <Router>
+      <div className="min-h-screen flex flex-col bg-gray-100">
+        <header className="px-2">
           <Navbar />
         </header>
-        <main className='flex-grow container mx-auto bg-gradient-to-b from-[#1a1f12] to-[#0c0f08]'>
-          <Routes className='mt-16'>
-            <Route path='/' element={<Home />} />
-            <Route path='/ngoDashboard' element={<NGODashboard />} />
-            <Route path='/restaurantDashboard' element={<RestaurantDashboard />} />
-            <Route path='/auth' element={<Auth />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/admin' element={<Admin />} />
-            <Route path='/map' element={<Map />} />
-            <Route path='*' element={<div className='text-center text-gray-600'>404</div>} />
-          </Routes>
+
+        <main className="flex-grow bg-gradient-to-b from-[#1a1f12] to-[#0c0f08]">
+          <div className="">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/ngoDashboard" element={<NGODashboard />} />
+              <Route path="/restaurantDashboard" element={<RestaurantDashboard />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/map" element={<Map />} />
+              <Route path="*" element={<div className="text-center text-gray-600">404</div>} />
+            </Routes>
+          </div>
         </main>
         <footer className="bg-gray-800 text-white">
           <Footer />
         </footer>
       </div>
-    </Routerz_Hehe>
+    </Router>
   );
 }
 

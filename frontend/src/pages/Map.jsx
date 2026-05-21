@@ -1,4 +1,3 @@
-// src/pages/MAP.jsx
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import MapFood from '../components/MapFood';
@@ -40,7 +39,6 @@ const MAP = () => {
     }
   };
 
-  // haversine distance calculation
   const haversineDistance = ([lat1, lon1], [lat2, lon2]) => {
     const toRad = (x) => (x * Math.PI) / 180;
     const R = 6371;
@@ -95,7 +93,6 @@ const MAP = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1f12] to-[#0c0f08] px-4 py-8 sm:px-6 lg:px-8">
       <div className="max-w-7xl mt-20 mx-auto">
-        {/* Header section */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -117,7 +114,6 @@ const MAP = () => {
           <div className="w-20 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto mt-4" />
         </motion.div>
 
-        {/* Stats badge – shows number of available foods */}
         {foodsWithDistance.length > 0 && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -141,7 +137,6 @@ const MAP = () => {
           </motion.div>
         )}
 
-        {/* Map container – glass card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -157,7 +152,6 @@ const MAP = () => {
           </div>
         </motion.div>
 
-        {/* Optional helper text */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

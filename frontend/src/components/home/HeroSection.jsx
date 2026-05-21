@@ -137,7 +137,7 @@ export default function HeroSection() {
           >
             {/* Primary Button */}
             <motion.a
-              href="#donate"
+              href="/restaurantDashboard"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               className="group relative px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-semibold text-sm uppercase tracking-[0.2em] rounded-full overflow-hidden shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 transition-shadow duration-300"
