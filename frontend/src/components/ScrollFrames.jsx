@@ -1,7 +1,6 @@
-// src/components/ScrollFrames.jsx
 import { useEffect, useRef, useState } from "react";
 
-const TOTAL_FRAMES = 768; // CHANGE THIS
+const TOTAL_FRAMES = 768;
 
 const ScrollFrames = () => {
   const canvasRef = useRef(null);
@@ -25,7 +24,6 @@ const ScrollFrames = () => {
 
     const images = [];
 
-    // PRELOAD ALL FRAMES
     for (let i = 0; i < frameCount; i++) {
       const img = new Image();
 
@@ -36,7 +34,6 @@ const ScrollFrames = () => {
 
         setLoadedCount((prev) => prev + 1);
 
-        // DRAW FIRST FRAME
         if (i === 0) {
           context.drawImage(
             img,
@@ -107,7 +104,6 @@ const ScrollFrames = () => {
 
   return (
     <>
-      {/* DEBUG PANEL */}
       <div
         style={{
           position: "fixed",
@@ -146,7 +142,6 @@ const ScrollFrames = () => {
         )}
       </div>
 
-      {/* CANVAS */}
       <canvas
         ref={canvasRef}
         style={{

@@ -1,4 +1,3 @@
-// src/components/home/ProblemSection.jsx
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
@@ -28,11 +27,9 @@ export default function ProblemSection() {
     offset: ["start end", "end start"],
   });
 
-  // Section enters from bottom, exits upward
   const opacity   = useTransform(scrollYProgress, [0, 0.15, 0.75, 0.95], [0, 1, 1, 0]);
   const scale     = useTransform(scrollYProgress, [0, 0.15, 0.75, 0.95], [0.94, 1, 1, 0.94]);
 
-  // Content entrance triggered by inView
   const { scrollYProgress: enterProgress } = useScroll({
     target: sectionRef,
     offset: ["start 80%", "start 20%"],
@@ -66,7 +63,6 @@ export default function ProblemSection() {
         .prob-stat-card:hover::before { opacity: 1; }
       `}</style>
 
-      {/* Sticky scroll container */}
       <div
         ref={sectionRef}
         id="problem"
@@ -91,7 +87,6 @@ export default function ProblemSection() {
               alignItems: "center",
             }}
           >
-           {/* Left: Text inside a semi‑transparent box */}
             <motion.div style={{ opacity: contentOpacity, y: contentY }}>
               <div style={{
                 background: "rgba(8, 6, 4, 0.55)",
@@ -101,7 +96,6 @@ export default function ProblemSection() {
                 padding: "2rem 2rem 2rem 2.5rem",
                 transition: "border-color 0.3s, box-shadow 0.3s",
               }}>
-                {/* Eyebrow */}
                 <div style={{
                   fontFamily: "'DM Sans', sans-serif",
                   fontSize: "0.63rem", fontWeight: 500,
@@ -156,7 +150,6 @@ export default function ProblemSection() {
               </div>
             </motion.div>
 
-            {/* Right: Stat cards */}
             <motion.div
               style={{ display: "flex", flexDirection: "column", gap: "1rem", opacity: contentOpacity }}
             >
@@ -222,7 +215,6 @@ export default function ProblemSection() {
                 </motion.div>
               ))}
 
-              {/* Decorative insight card – improved UI & entrance animation */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

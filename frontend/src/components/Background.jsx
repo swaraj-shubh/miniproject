@@ -1,4 +1,3 @@
-// src/components/Background.jsx
 import ScrollFrames from "./ScrollFrames";
 
 const Background = ({ children }) => {
@@ -10,10 +9,8 @@ const Background = ({ children }) => {
         background: "black",
       }}
     >
-      {/* FRAME ANIMATION */}
       <ScrollFrames />
 
-      {/* OPTIONAL DARK OVERLAY */}
       <div
         style={{
           position: "fixed",
@@ -24,7 +21,6 @@ const Background = ({ children }) => {
         }}
       />
 
-      {/* PAGE CONTENT */}
       <div
         style={{
           position: "relative",

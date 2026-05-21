@@ -277,7 +277,6 @@ function Navbar() {
 
             <header className={`navbar-shell ${isScrolled ? "scrolled" : ""}`}>
                 <div className="navbar-inner">
-                    {/* Logo */}
                     <Link to="/" className="nav-logo">
                         <div className="nav-logo-icon">
                             <Heart size={14} color="#d4a55a" fill="rgba(212,165,90,0.4)" />
@@ -285,7 +284,6 @@ function Navbar() {
                         <span className="nav-logo-text">Second <em>Serve</em></span>
                     </Link>
 
-                    {/* Desktop nav */}
                     <NavigationMenu className="desktop-nav">
                         <NavigationMenuList className="nav-links-list">
                             <NavigationMenuItem>
@@ -334,7 +332,6 @@ function Navbar() {
                         </NavigationMenuList>
                     </NavigationMenu>
 
-                    {/* Mobile toggle */}
                     <button
                         className="mobile-toggle"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -344,7 +341,6 @@ function Navbar() {
                     </button>
                 </div>
 
-                {/* Mobile drawer */}
                 {isMobileMenuOpen && (
                     <div className="mobile-drawer">
                         <Link to="/" className={`mobile-link ${location.pathname === "/" ? "mobile-link-active" : ""}`} onClick={() => setIsMobileMenuOpen(false)}>Home</Link>

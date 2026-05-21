@@ -1,4 +1,3 @@
-// components/MapSearch.jsx
 import { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
 import { OpenStreetMapProvider, GeoSearchControl } from "leaflet-geosearch";
@@ -6,7 +5,6 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-geosearch/dist/geosearch.css";
 
-// Fix default icon issue with Leaflet + React
 delete L.Icon.Default.prototype._getIconUrl;
 // L.Icon.Default.mergeOptions({
 //   iconRetinaUrl: markerIcon2x,

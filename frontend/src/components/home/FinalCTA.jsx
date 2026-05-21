@@ -1,7 +1,5 @@
-// src/components/home/ImpactCTA.jsx
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, animate } from "framer-motion";
-import Footer from "@/pages/Footer";
 
 const STATS = [
   { num: 284000, suffix: "+", label: "Meals Rescued" },
@@ -64,7 +62,6 @@ export default function ImpactCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  // Fade + slide in as the section scrolls into view
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "start start"],
@@ -173,31 +170,22 @@ export default function ImpactCTA() {
         }
       `}</style>
 
-      {/*
-        ── HOW THE LOCK WORKS ──
-        • Outer div = 200vh  →  gives 100vh of "scroll budget" while sticky is locked
-        • Inner div = position:sticky + top:0 + height:100vh
-          → enters screen normally, then LOCKS in place for the entire 100vh scroll budget
-          → once user scrolls past the 200vh container, sticky releases and section scrolls away
-        • No JS needed — pure CSS sticky behaviour
-      */}
+     
       <div
         ref={sectionRef}
         id="impact"
         style={{
-          height: "300vh",        // 100vh visible + 100vh scroll lock budget
+          height: "300vh",     
           position: "relative",
           scrollMarginTop: "88px",
           // margin: "2rem",
         }}
       >
-        {/* Ambient glow */}
         <div style={{
           position: "absolute", inset: 0, pointerEvents: "none",
           background: "radial-gradient(ellipse 70% 55% at 50% 40%, rgba(212,165,90,0.05) 0%, transparent 70%)",
         }} />
 
-        {/* ── STICKY LOCK ── */}
         <motion.div
           style={{
             position: "sticky",
@@ -215,10 +203,6 @@ export default function ImpactCTA() {
         >
           <div style={{ maxWidth: 820, width: "100%" }}>
 
-            {/* ── STATS ROW ── */}
-            
-
-            {/* ── MAIN CTA BOX ── */}
             <motion.div
               variants={STAGGER}
               initial="hidden"
@@ -234,7 +218,6 @@ export default function ImpactCTA() {
                 textAlign: "center",
               }}
             >
-              {/* Corner accents */}
               {[
                 { top: 10, left: 10, borderWidth: "1px 0 0 1px" },
                 { top: 10, right: 10, borderWidth: "1px 1px 0 0" },
@@ -342,10 +325,7 @@ export default function ImpactCTA() {
             
 
           </div>
-          {/* <Footer /> */}
         </motion.div>
-        {/* End sticky */}
-
       </div>
     </>
   );

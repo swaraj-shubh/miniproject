@@ -32,6 +32,6 @@ export const reserveFood = (id) => API.put(`/foods/${id}/reserve`);
 export const getAvailableFoods = () => API.get("/foods/donate")
 
 // ======= Admin APIs =======
-export const fetchAllUsers = () => API.get("/users/all");               // GET all users (admin only)
-export const deleteUserById = (userId) => API.delete(`/users/${userId}`); // DELETE user (admin only)
+export const fetchAllUsers = () => API.get("/users/all"); 
+export const deleteUserById = (userId) => API.delete(`/users/${userId}`);
 export const admin = () => API.get("/foods/admin")

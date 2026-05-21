@@ -1,4 +1,3 @@
-// src/components/home/SolutionSection.jsx
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
@@ -109,7 +108,6 @@ export default function SolutionSection() {
             gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
             gap: "5rem", alignItems: "center",
           }}>
-            {/* Left: text — improved readability & animation */}
             <motion.div
               style={{ y: textY, opacity: textOp }}
               initial={{ opacity: 0, y: 30 }}
@@ -122,7 +120,7 @@ export default function SolutionSection() {
                 fontWeight: 600,
                 letterSpacing: "0.48em",
                 textTransform: "uppercase",
-                color: "#29e718",                   // slightly brighter amber
+                color: "#29e718",       
                 marginBottom: "1.4rem",
                 display: "flex",
                 alignItems: "center",
@@ -138,7 +136,7 @@ export default function SolutionSection() {
                 fontSize: "clamp(2.4rem, 5vw, 4rem)",
                 fontWeight: 200,
                 lineHeight: 1.12,
-                color: "#fff6ea",                    // warmer off-white
+                color: "#fff6ea",        
                 margin: "0 0 1rem",
                 letterSpacing: "-0.01em",
                 textShadow: "0 2px 4px rgba(0,0,0,0.15)",
@@ -149,7 +147,7 @@ export default function SolutionSection() {
               </h2>
 
               <div style={{
-              display: "inline-block",                     // or "block" if full width is preferred
+              display: "inline-block",           
               background: "rgba(245, 153, 62, 0.34)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(212, 165, 90, 0.25)",
@@ -238,7 +236,6 @@ export default function SolutionSection() {
               </motion.a>
             </motion.div>
 
-            {/* Right: feature cards – enhanced glassmorphism & animations */}
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               {FEATURES.map((f, i) => (
                 <motion.div
@@ -267,7 +264,6 @@ export default function SolutionSection() {
                     transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                   }}
                 >
-                  {/* Icon with enhanced styling */}
                   <span
                     style={{
                       fontSize: "2rem",
@@ -281,7 +277,6 @@ export default function SolutionSection() {
                     {f.icon}
                   </span>
 
-                  {/* Text content */}
                   <div style={{ flex: 1 }}>
                     <div
                       style={{
@@ -308,7 +303,6 @@ export default function SolutionSection() {
                     </div>
                   </div>
 
-                  {/* Feature number – elegantly positioned */}
                   <div
                     style={{
                       position: "absolute",

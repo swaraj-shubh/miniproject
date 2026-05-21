@@ -5,7 +5,6 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
-// Fix for default marker icons in Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -13,7 +12,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// Custom icons configuration
 const blueIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
   iconRetinaUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
@@ -107,7 +105,6 @@ const MapFood = ({ foods, userCoords, closestFood }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* User location marker */}
         <Marker 
           position={[userCoords[0], userCoords[1]]}
           icon={blueIcon}
@@ -115,7 +112,6 @@ const MapFood = ({ foods, userCoords, closestFood }) => {
           <Popup>Your Location</Popup>
         </Marker>
 
-        {/* Food markers */}
         {foods.map((food) => (
           <Marker
             key={food._id}
@@ -127,7 +123,6 @@ const MapFood = ({ foods, userCoords, closestFood }) => {
           >
           <Popup className="min-w-[220px] popup-container">
             <div className="space-y-2">
-              {/* Header with food icon and name */}
               <div className="flex items-start gap-2">
                 <div className="bg-green-100 p-2 rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
@@ -137,14 +132,11 @@ const MapFood = ({ foods, userCoords, closestFood }) => {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 text-lg">{food.name}</h3>
-                  {/* <p className="text-sm text-gray-500">{food.description}</p> */}
                 </div>
               </div>
 
-              {/* Divider */}
               <div className="border-t border-gray-100 my-2"></div>
 
-              {/* Distance with map pin icon */}
               <div className="flex items-center gap-2">
                 {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
@@ -154,7 +146,6 @@ const MapFood = ({ foods, userCoords, closestFood }) => {
               </div>
               </div>
 
-              {/* Quantity with box icon */}
               <div className="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M3 17a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v12zm5-6a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clipRule="evenodd" />
@@ -164,7 +155,6 @@ const MapFood = ({ foods, userCoords, closestFood }) => {
                 </span>
               </div>
 
-              {/* Expiry with clock icon */}
               <div className="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
@@ -174,7 +164,6 @@ const MapFood = ({ foods, userCoords, closestFood }) => {
                 </span>
               </div>
 
-              {/* Estimated travel time */}
               <div className="flex items-center gap-2 pt-1">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
