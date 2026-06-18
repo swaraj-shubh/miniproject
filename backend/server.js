@@ -46,10 +46,10 @@ mongoose
   .then(() => {
     console.log("✅ ho gaya connect mubarak!");
     app.listen(PORT, () =>
-      console.log(`🚀 yaha run ho rha h-> http://localhost:${PORT}`)
+      console.log(`🚀 running here -> http://localhost:${PORT}`)
     );
   })
   .catch((err) => {
-    console.error("❌ MongoDB  connection ke lode lag gaye-> failed:", err);
+    console.error("❌ MongoDB  connection failed:", err);
     process.exit(1);
   });
